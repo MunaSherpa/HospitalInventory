@@ -4,6 +4,8 @@ const cors = require('cors');
 const User = require("./model/userModel")
 const app = express()
 
+// const cookieParser = require ("cookie-parser")
+
 
 const { registerUser, loginUser } = require("./controller/auth/authController")
 
@@ -11,10 +13,10 @@ const { registerUser, loginUser } = require("./controller/auth/authController")
 //ROUTE HERE
 //route of authRote
 const authRoute = require("./routes/authRoute")// this is require from wich export routes/authRoute
+const userRoute = require("./routes/userRoute")
 
 
 //Route end here
-
 
 
 //Tell Node to use dotenv
@@ -24,11 +26,15 @@ app.use(express.json())
 app.use(cors());
 app.use(express.urlencoded({extended: true}))
 
+// app.use(cookieParser())
+
 //DataBase Connection
 connectDatabase(process.env.MONGO_URI) // Database connection. if we cannot require("dotenv").config() it cannot access (process.env.MONGO_URI) 
 
 
 app.use("",authRoute)// this line use the routes of authRoute and  middleware applied and app.use("",authRoute) in here empty string ""   used all the api is add in this first empty"" of authRoute
+app.use("", userRoute )
+// app.use("/api/v1/users", userRoute)
 
 
 

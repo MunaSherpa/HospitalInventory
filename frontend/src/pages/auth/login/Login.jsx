@@ -1,316 +1,225 @@
-// import Button from "@mui/material/Button";
-// import CssBaseline from "@mui/material/CssBaseline";
-// import TextField from "@mui/material/TextField";
-// import FormControlLabel from "@mui/material/FormControlLabel";
-// import Checkbox from "@mui/material/Checkbox";
-// import Link from "@mui/material/Link";
-// import Paper from "@mui/material/Paper";
-// import Box from "@mui/material/Box";
-// import Grid from "@mui/material/Grid";
-// import Typography from "@mui/material/Typography";
-// import { Container } from "@mui/material";
-// import doctorImg from "../../../assets/doctor.png"
-// import { green } from "@mui/material/colors";
-
-// export default function SignInSide() {
-//   const handleSubmit = (event) => {
-//     event.preventDefault();
-//     const data = new FormData(event.currentTarget);
-
-//   };
-
-//   return (
-
-//       <Box
-//       sx={{
-
-//         alignItems: "center",
-//         display: "flex",
-//         height: "100vh",
-//         justifyContent: "center",
-
-//     }}
-//       >
-//         <Grid container>
-//           <CssBaseline />
-//           <Grid
-//             item
-//             xs={10}
-//             sm={10}
-//             md={5}
-
-//             component={Paper}
-//             elevation={5}
-//             square
-//             borderRadius={4}
-
-//             sx={{
-//                 maxWidth: "1200px",
-//                 width: "100%",
-//                 margin: "auto",
-//                 paddingY: "1rem",
-//                 paddingX: "rem",
-
-//             }}
-//           >
-//             <Box
-//               sx={{
-//                 my: 10,
-//                 mx: 5,
-//                 display: "flex",
-//                 flexDirection: "column",
-//                 alignItems: "center",
-
-
-
-//               }}
-//             >
-//               <Typography component="h1" variant="h5" >
-//                 Sign In
-//               </Typography>
-//               <Box
-//                 component="form"
-//                 noValidate
-//                 onSubmit={handleSubmit}
-//                 sx={{ mt: 1 }}
-//               >
-//                 <TextField
-//                   margin="normal"
-//                   required
-//                   fullWidth
-//                   id="email"
-//                   label="Email Address"
-//                   name="email"
-//                   autoComplete="email"
-//                   autoFocus
-
-
-//                 />
-//                 <TextField
-//                   margin="normal"
-//                   required
-//                   fullWidth
-//                   name="password"
-//                   label="Password"
-//                   type="password"
-//                   id="password"
-//                   autoComplete="current-password"
-//                 />
-
-//                 <Button
-//                   type="submit"
-//                   fullWidth
-//                   variant="contained"
-//                   sx={{ mt: 3, mb: 2 , background: '#357a38', "&:hover": {
-//                     backgroundColor: '#357a38'
-//                   },}}
-//                 >
-//                   Sign In
-//                 </Button>
-//                 <Grid container>
-//                   <Grid item xs>
-//                     <Link href="#"  sx={{ color: "black", textDecoration:'none'}}>
-//                       Forgot password?
-//                     </Link>
-//                   </Grid>
-//                   <Box
-//                                     sx={{
-//                                         color: "black",
-//                                         marginTop: "rem",
-//                                         textAlign: "start",
-//                                     }}
-//                                 >
-//                                      Not register yet?
-//                                     <Link
-//                                         href="/register"
-//                                         style={{
-//                                             textDecoration: "none",
-//                                             color: "#448aff",
-//                                         }}
-//                                     >
-
-//                                         Sign Up
-//                                     </Link>
-//                                 </Box>
-//                 </Grid>
-//               </Box>
-//             </Box>
-//           </Grid>
-//         </Grid>
-//       </Box>
-
-//   );
-// }
-
-
-
-
+import React, { useState } from 'react'
+import axios from 'axios'
+import { useNavigate } from "react-router-dom"
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import { Container } from "@mui/material";
-import doctorImg from "../../../assets/doctor.png"
-import { green } from "@mui/material/colors";
-
-import React, { useState } from 'react'
-import Axios from 'axios'
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+import Slide from '@mui/material/Slide';
 
 
 
 const Login = () => {
+    const [email, setEmail] = useState()
+    const [password, setPassword] = useState()
+    const navigate = useNavigate()
+    const [successState, setSuccessState] = useState(false)
+    const [errorState, setErorrState] = useState(false)
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [loginStat, setLoginStat] = useState("");
-  console.log(email)
-  console.log(password)
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            setSuccessState(false);
+
+        }
+    }
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        axios.post('http://localhost:3001/login', { email, password })
+            .then(result => {
+                console.log(result)
+                if (result.data.message === "User LogIn  Successfully.") {
+                    // alert("User LogIn Successfully.");
+                    setSuccessState(true);
+                    //   navigate('/')
+                }
 
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    Axios.post("http://localhost:3001/login", {
-      email: email,
-      password: password,
-    }).then((response) => {
-      setLoginStat(response.data);
-      console.log(response.statusText)
-      console.log(loginStat);
+                else {
+                    alert(result.data.message);
+                }
 
-    })
+            })
+            .catch(error => {
+                if (error.response && error.response.status === 401) {
+                    alert("Invalid Email or Password.");
+                } else {
+                    console.error("An error occurred:", error);
+                }
+            });
+    }
 
-  }
 
-  return (
 
-    <Box
-      sx={{
+    return (
 
-        alignItems: "center",
-        display: "flex",
-        height: "100vh",
-        justifyContent: "center",
-
-      }}
-    >
-      <Grid container>
-        <CssBaseline />
-        <Grid
-          item
-          xs={10}
-          sm={10}
-          md={5}
-
-          component={Paper}
-          elevation={5}
-          square
-          borderRadius={4}
-
-          sx={{
-            maxWidth: "1200px",
-            width: "100%",
-            margin: "auto",
-            paddingY: "1rem",
-            paddingX: "rem",
-
-          }}
-        >
-          <Box
+        <Box
             sx={{
-              my: 10,
-              mx: 5,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
 
-
+                alignItems: "center",
+                display: "flex",
+                height: "100vh",
+                justifyContent: "center",
 
             }}
-          >
-            <Typography component="h1" variant="h5" >
-              Sign In
-            </Typography>
-            <Box
-              component="form"
-              noValidate
-              onSubmit={handleSubmit}
-              sx={{ mt: 1 }}
-            >
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                autoFocus
+        >
 
+            <Grid container >
+                <CssBaseline />
 
-              />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-              />
+                <Grid
+                    item
+                    xs={10}
+                    sm={10}
+                    md={5}
+                    component={Paper}
+                    elevation={6}
+                    square
+                    borderRadius={4}
 
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{
-                  mt: 3, mb: 2, background: '#357a38', "&:hover": {
-                    backgroundColor: '#357a38'
-                  },
-                }}
-              >
-                Sign In
-              </Button>
-              <Grid container>
-                <Grid item xs>
-                  <Link href="#" sx={{ color: "black", textDecoration: 'none' }}>
-                    Forgot password?
-                  </Link>
-                </Grid>
-                <Box
-                  sx={{
-                    color: "black",
-                    marginTop: "rem",
-                    textAlign: "start",
-                  }}
-                >
-                  Not register yet?
-                  <Link
-                    href="/register"
-                    style={{
-                      textDecoration: "none",
-                      color: "#448aff",
+                    sx={{
+                        maxWidth: "1200px",
+                        width: "100%",
+                        margin: "auto",
+                        paddingY: "1rem",
+                        paddingX: "0.5rem",
                     }}
-                  >
+                >
+                    <Box
+                        sx={{
+                            my: 5,
+                            mx: 5,
 
-                    Sign Up
-                  </Link>
-                </Box>
-              </Grid>
-            </Box>
-          </Box>
-        </Grid>
-      </Grid>
-    </Box>
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
 
-  );
 
+
+                        }}
+                    >
+                        <Typography component="h1" variant="h5" >
+                            Login
+                        </Typography>
+                        <form onSubmit={handleSubmit}>
+
+                            <TextField
+                                margin="normal"
+                                required
+                                fullWidth
+                                id="email"
+                                type="email"
+                                label="Email Address"
+                                name="email"
+                                autoComplete="email"
+                                autoFocus
+                                onChange={(e) => { setEmail(e.target.value); }}
+
+
+
+                            />
+                            <TextField
+                                margin="normal"
+                                required
+                                fullWidth
+                                name="password"
+                                label="Password"
+                                type="password"
+                                id="password"
+                                autoComplete="current-password"
+                                onChange={(e) => { setPassword(e.target.value); }}
+
+                            />
+
+                            <Button
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+
+                                sx={{
+                                    mt: 3, mb: 2, background: '#357a38', "&:hover": {
+                                        backgroundColor: '#357a38'
+                                    },
+                                }}
+                            >
+                                Login
+                            </Button>
+                            <Snackbar open={successState} autoHideDuration={6000} onClose={handleClose} anchorOrigin={{
+                                vertical: 'bottom',
+                                horizontal: 'right',
+                            }}
+                                TransitionComponent={Slide}  // Use the Slide transition
+                                transitionDuration={100}
+                            >
+                                <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+                                    Registration Success
+                                </Alert>
+                            </Snackbar>
+                        </form>
+                        <Box
+                            sx={{
+                                color: "black",
+                                //   marginTop: "2rem",
+                                //   marginRight: "19.5rem",
+                                //   paddingTop: "rem",
+                                textAlign: "start",
+                            }}
+                        >
+                            {" "}
+                            <Link
+                                href="/forgotPassword"
+                                style={{
+                                    textDecoration: "none",
+                                    color: "#448aff",
+                                }}
+                            >
+                                {" "}
+                                ForgotPassword?
+                            </Link>
+                        </Box>
+                        <Box
+                            sx={{
+                                color: "black",
+                                //   marginTop: "rem",
+                                textAlign: "start",
+                                //   paddingBottom: "2rem",
+
+                            }}
+                        >
+                            Not register yet?{" "}
+                            <Link
+                                href="/register"
+                                style={{
+                                    textDecoration: "none",
+                                    color: "#448aff",
+                                }}
+                            >
+                                {" "}
+                                Register
+                            </Link>
+
+                        </Box>
+
+
+                    </Box>
+
+
+
+                </Grid>
+
+            </Grid>
+
+
+
+        </Box>
+
+
+    );
 }
 
 export default Login

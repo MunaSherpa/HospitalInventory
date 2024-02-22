@@ -1,15 +1,13 @@
 import { useState } from 'react'
 import './App.css'
-import Layout from './layout/layout'
-import Login from './pages/auth/login/Login'
-import Register from './pages/auth/register/Register'
-import Home from './pages/home/Home'
+import Routers from './routes/Routers'
 
 
 function App() {
   return (
     <>
-      <Layout />
+
+      <Routers/>
     </>
   )
 }

@@ -14,10 +14,12 @@ const sendEmail = async (options) => {
 
 
     const mailOptions = {
-        from :" Muna sherpa <muna@gmail.com>",
+        from :" Muna sherpa <munasherpa31@gmail.com>",
         to: options.email,
         subject : options.subject,
-        text: options.message,
+        // subject: 'Reset your password',
+        // text: options.message,
+        text: 'http://localhost:5173/resetPassword/${user._id}/'
     };
 
     await transporter.sendMail(mailOptions);
