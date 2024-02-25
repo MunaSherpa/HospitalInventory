@@ -8,12 +8,15 @@ const app = express()
 
 
 const { registerUser, loginUser } = require("./controller/auth/authController")
+// const {multer, storage, imageStorage} = require("./config/multerConfig")
+// const upload = multer({ storage: storage });
 
 
 //ROUTE HERE
 //route of authRote
 const authRoute = require("./routes/authRoute")// this is require from wich export routes/authRoute
-const userRoute = require("./routes/userRoute")
+const userRoute = require("./routes/userRoute");
+const router = require("./routes/authRoute");
 
 
 //Route end here
@@ -25,6 +28,7 @@ require("dotenv").config() // tell node to use env file. it use the MONGO_URI va
 app.use(express.json())
 app.use(cors());
 app.use(express.urlencoded({extended: true}))
+app.use(express.static("uploads")); // databasema null ako thauma link datakacha
 
 // app.use(cookieParser())
 
@@ -33,8 +37,10 @@ connectDatabase(process.env.MONGO_URI) // Database connection. if we cannot requ
 
 
 app.use("",authRoute)// this line use the routes of authRoute and  middleware applied and app.use("",authRoute) in here empty string ""   used all the api is add in this first empty"" of authRoute
-app.use("", userRoute )
+// app.use("", userRoute )
 // app.use("/api/v1/users", userRoute)
+// const uploadImage = multer({ storage: imageStorage });
+// app.post('/doctorRegister', uploadImage.single("image"), authRoute) //upload.single('image') is middleware
 
 
 

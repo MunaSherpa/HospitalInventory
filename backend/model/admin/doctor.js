@@ -1,24 +1,51 @@
-module.exports = (sequelize, Sequelize) => {
-    const Doctor = sequelize.define('doctor', {
-        image: {
-            type: Sequelize.STRING
-        },
-        name: {
-            type: Sequelize.STRING
-        },
-        specialist: {
-            type: Sequelize.STRING
-        },
-        fees: {
-            type: Sequelize.STRING
-        },
-        workExperience : {
-            type: Sequelize.STRING
-        },
-        education : {
-            type: Sequelize.STRING
-        }
-        
-    })
-    return Doctor
-}
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
+const bcrypt = require('bcrypt');
+
+
+const doctor = new Schema({
+    image: {
+        type: String,
+        required: [true, "image must be provided"]
+    },
+
+    name: {
+        type: String,
+        required: [true, "Name must be provided"]
+    },
+    email: {
+        type: String,
+        required: [true, "email must be provided"]
+    },
+
+    specialist: {
+        type: String,
+        required: [true, 'specialist must be provided'] // email aunu paro vanako true
+
+    },
+
+    workExperience:  {
+        type: String,
+        required: [true, " workexperience must be provided "]
+    },
+
+    education:  {
+        type: String,
+        required: [true, " education must be provided "]
+    },
+
+    price:  {
+        type: String,
+        required: [true, ]
+    },
+    time:  {
+        type: String,
+        required: [true, ]
+    },
+
+})
+
+
+
+const Doctor = mongoose.model("Doctor", doctor)
+module.exports = Doctor

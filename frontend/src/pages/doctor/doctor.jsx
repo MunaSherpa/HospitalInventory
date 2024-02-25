@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from '../../navbar/Navbar'
 import { Typography, Box, Grid, Card, CardContent, Button, CardActions, CardMedia, TextField } from '@mui/material'
 import img from '../../assets/img.png'
@@ -7,6 +7,7 @@ import img2 from '../../assets/img2.png'
 import img3 from '../../assets/img3.png'
 import Footer from '../../footer/Footer'
 import { Link } from 'react-router-dom';
+import axios from 'axios'
 
 
 const Doctor = () => {
@@ -15,6 +16,13 @@ const Doctor = () => {
     const handleSearchChange = (event) => {
         setSearchTerm(event.target.value);
     };
+
+    // const [doc, setDoc] = useState([])
+    // useEffect(()=>{
+    //     axios.get('http://localhost:3001/doctorRegister')
+    //     .then(doc => setDoc(doc.data))
+    //     .catch(err => console.log(err))
+    // }, [])
 
     const doctors = [
         {
@@ -102,6 +110,9 @@ const Doctor = () => {
                                     <CardContent>
                                         <Typography gutterBottom variant="h5" component="div" style={{ paddingLeft: '4rem' }}>
                                             {doctor.name}
+                                            {/* doc.map(doctor => {
+                                                doctor.name
+                                            }) */}
                                         </Typography>
                                         <Typography variant="body2" color="textSecondary" component="p" style={{ paddingLeft: '4rem' }}>
                                             {doctor.specialist}
