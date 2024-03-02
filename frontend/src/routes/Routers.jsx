@@ -15,6 +15,9 @@ import AddDoctor from '../layout/admin/AddDoctor'
 import Nav from '../layout/admin/Nav'
 import Sidenav from '../layout/admin/Sidenav'
 import ViewDoctor from '../pages/doctor/ViewDoctor'
+import NavProfile from '../navbar/navprofile'
+import UserProfile from '../pages/user/UserProfile'
+import NotLoggedInPage from '../pages/user/NotLoggedPage'
 
 
 
@@ -23,8 +26,11 @@ const Routers = () => {
    
     <Routes>
         <Route path='/navbar' element={<Navbar/>}/>
+        <Route path='/navprofile' element={<NavProfile/>}/>
         <Route path='/footer' element={<Footer/>}/>
-        <Route path='' element={<Home/>}/>
+        <Route path='/homepage' element={<Home/>}/>
+        <Route path='/' element={<NotLoggedInPage/>}/>
+
         <Route path='/login' element={<Login/>}/>
         <Route path='/register' element={<Register/>}/>
         <Route path='/forgotPassword' element={<ForgotPassword/>}/>
@@ -33,6 +39,8 @@ const Routers = () => {
         <Route path='/pharmacy' element={<Pharmacy/>}/>
         <Route path='/blog' element={<Blogs/>}/>
         <Route path='/viewdoctor' element={<ViewDoctor/>}/>
+        <Route path="/profile/:email" element={<UserProfile />} />
+
 
 
 

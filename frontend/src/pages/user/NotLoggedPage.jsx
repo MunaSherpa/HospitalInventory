@@ -6,9 +6,9 @@ import img1 from '../../assets/img1.png';
 import img2 from '../../assets/img2.png';
 import img3 from '../../assets/img3.png';
 import Footer from '../../footer/Footer';
-import NavProfile from '../../navbar/navprofile';
+import Navbar from '../../navbar/Navbar';
 
-const Home = () => {
+const NotLoggedInPage = () => {
     const location = useLocation();
     const email = location.state && location.state.email;
     console.log(email);
@@ -90,8 +90,7 @@ const Home = () => {
 
     return (
         <>
-        <NavProfile email={email} />
-            
+            <Navbar />
             <Box>
                 <Box sx={{ my: 4, display: 'flex', justifyContent: 'center' }}>
                     <img
@@ -105,11 +104,6 @@ const Home = () => {
                         }}
                     />
                 </Box>
-                {/* {email && (
-                    <Typography variant="h6" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '5vh' }}>
-                        Logged in as: {email}
-                    </Typography>
-                )} */}
                 <Typography variant="h4" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '10vh' }}>
                     Our Medical Service
                 </Typography>
@@ -184,4 +178,4 @@ const Home = () => {
     );
 }
 
-export default Home;
+export default NotLoggedInPage;

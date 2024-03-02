@@ -28,7 +28,9 @@ require("dotenv").config() // tell node to use env file. it use the MONGO_URI va
 app.use(express.json())
 app.use(cors());
 app.use(express.urlencoded({extended: true}))
+app.use('/uploads', express.static('uploads'));
 app.use(express.static("uploads")); // databasema null ako thauma link datakacha
+
 
 // app.use(cookieParser())
 

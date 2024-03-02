@@ -72,15 +72,34 @@ exports.registerDoctor = async (req, res) => {
 
 
 // get doctor details
-exports.getDoctorsDetails = async (req, res) => {
-    try {
-      // Find all doctors in the database
-      const doctors = await Doctor.find();
+// exports.getDoctorsDetails = async (req, res) => {
+//     try {
+//       // Find all doctors in the database
+//       const doctors = await Doctor.find();
   
-      // Return the array of doctor objects
-      return doctors;
-    } catch (error) {
-      console.error('Error fetching doctors:', error);
-      throw error; // Handle or rethrow the error as needed
-    }
+//       // Return the array of doctor objects
+//       return doctors;
+//     } catch (error) {
+//       console.error('Error fetching doctors:', error);
+//       throw error; // Handle or rethrow the error as needed
+//     }
+//   }
+
+
+// doctorController.js
+
+
+
+// Fetch doctor details
+exports.getDoctorDetails = async (req, res) => {
+  try {
+    // Fetch all doctors from the database
+    const doctors = await Doctor.find();
+    res.json(doctors);
+  } catch (error) {
+    console.error("Error fetching doctor details:", error);
+    res.status(500).json({
+      message: "An error occurred while fetching doctor details."
+    });
   }
+};

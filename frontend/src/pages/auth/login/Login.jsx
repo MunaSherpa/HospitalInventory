@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
-import axios from 'axios'
-import { useNavigate } from "react-router-dom"
+import React, { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
@@ -13,37 +13,36 @@ import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import Slide from '@mui/material/Slide';
 
-
-
 const Login = () => {
-    const [email, setEmail] = useState()
-    const [password, setPassword] = useState()
-    const navigate = useNavigate()
-    const [successState, setSuccessState] = useState(false)
-    const [errorState, setErorrState] = useState(false)
+    const [email, setEmail] = useState();
+    const [password, setPassword] = useState();
+    const navigate = useNavigate();
+    const [successState, setSuccessState] = useState(false);
 
     const handleClose = (event, reason) => {
         if (reason === 'clickaway') {
             setSuccessState(false);
-
         }
     }
+
     const handleSubmit = (e) => {
-        e.preventDefault()
+        e.preventDefault();
         axios.post('http://localhost:3001/login', { email, password })
             .then(result => {
-                console.log(result)
-                if (result.data.message === "User LogIn  Successfully.") {
-                    // alert("User LogIn Successfully.");
+                console.log(result);
+                console.log(result.data.message);
+
+                if (result.data.message === "LogIn Success") {
+                    alert(result.data.message);
                     setSuccessState(true);
-                    //   navigate('/')
-                }
-
-
-                else {
+                    // navigate('/');
+                    navigate('/homepage', { state: { email: email } }); // Passing email as state
+               
+                // }
+                } else {
+                    // navigate('/');
                     alert(result.data.message);
                 }
-
             })
             .catch(error => {
                 if (error.response && error.response.status === 401) {
@@ -54,24 +53,17 @@ const Login = () => {
             });
     }
 
-
-
     return (
-
         <Box
             sx={{
-
                 alignItems: "center",
                 display: "flex",
                 height: "100vh",
                 justifyContent: "center",
-
             }}
         >
-
-            <Grid container >
+            <Grid container>
                 <CssBaseline />
-
                 <Grid
                     item
                     xs={10}
@@ -81,7 +73,6 @@ const Login = () => {
                     elevation={6}
                     square
                     borderRadius={4}
-
                     sx={{
                         maxWidth: "1200px",
                         width: "100%",
@@ -94,20 +85,15 @@ const Login = () => {
                         sx={{
                             my: 5,
                             mx: 5,
-
                             display: "flex",
                             flexDirection: "column",
                             alignItems: "center",
-
-
-
                         }}
                     >
                         <Typography component="h1" variant="h5" >
                             Login
                         </Typography>
                         <form onSubmit={handleSubmit}>
-
                             <TextField
                                 margin="normal"
                                 required
@@ -119,9 +105,6 @@ const Login = () => {
                                 autoComplete="email"
                                 autoFocus
                                 onChange={(e) => { setEmail(e.target.value); }}
-
-
-
                             />
                             <TextField
                                 margin="normal"
@@ -133,14 +116,11 @@ const Login = () => {
                                 id="password"
                                 autoComplete="current-password"
                                 onChange={(e) => { setPassword(e.target.value); }}
-
                             />
-
                             <Button
                                 type="submit"
                                 fullWidth
                                 variant="contained"
-
                                 sx={{
                                     mt: 3, mb: 2, background: '#357a38', "&:hover": {
                                         backgroundColor: '#357a38'
@@ -153,7 +133,7 @@ const Login = () => {
                                 vertical: 'bottom',
                                 horizontal: 'right',
                             }}
-                                TransitionComponent={Slide}  // Use the Slide transition
+                                TransitionComponent={Slide}
                                 transitionDuration={100}
                             >
                                 <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
@@ -164,13 +144,9 @@ const Login = () => {
                         <Box
                             sx={{
                                 color: "black",
-                                //   marginTop: "2rem",
-                                //   marginRight: "19.5rem",
-                                //   paddingTop: "rem",
                                 textAlign: "start",
                             }}
                         >
-                            {" "}
                             <Link
                                 href="/forgotPassword"
                                 style={{
@@ -178,20 +154,16 @@ const Login = () => {
                                     color: "#448aff",
                                 }}
                             >
-                                {" "}
-                                ForgotPassword?
+                                Forgot Password?
                             </Link>
                         </Box>
                         <Box
                             sx={{
                                 color: "black",
-                                //   marginTop: "rem",
                                 textAlign: "start",
-                                //   paddingBottom: "2rem",
-
                             }}
                         >
-                            Not register yet?{" "}
+                            Not registered yet?{" "}
                             <Link
                                 href="/register"
                                 style={{
@@ -199,27 +171,14 @@ const Login = () => {
                                     color: "#448aff",
                                 }}
                             >
-                                {" "}
                                 Register
                             </Link>
-
                         </Box>
-
-
                     </Box>
-
-
-
                 </Grid>
-
             </Grid>
-
-
-
         </Box>
-
-
     );
 }
 
-export default Login
+export default Login;

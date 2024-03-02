@@ -60,7 +60,7 @@ exports.loginUser = async (req, res) => {
     const userFound = await User.find({ email: email })
 
     if (userFound.length == 0) { // is the ==0 then is not found
-        console.log("kkkkk")
+        // console.log("kkkkk")
         return res.status(401).json({ // 404 is not found
             // message: "User with that Email is Not Registered."
             message: "Invalid Email or Password."
@@ -77,12 +77,11 @@ exports.loginUser = async (req, res) => {
         // generate token
         // token is unique identifier which check the which person is login
         const token = jwt.sign({ id: userFound[0]._id }, process.env.SECRET_KEY, { //  jwt.sign({id : userFound[0]._id} is the playload encript which we hide ) and process.env.SECRET_KEY is key which we can do unlock and lock from this.
-            expiresIn: '30d' // this line do how many day or min expiress login happen
+            expiresIn: '1000' // this line do how many day or min expiress login happen
         })
 
-
         res.status(200).json({
-            message: "User LogIn  Successfully.",
+            message: "LogIn Success",
             token
         })
     }
@@ -155,3 +154,66 @@ exports.resetPassword = async (req, res) => {
         }
     })
 }
+
+exports.getUserDetails = async (req, res) => {
+    try {
+      // Fetch all doctors from the database
+      const user = await User.find();
+      res.json(user);
+    //   console.log(user);
+    } catch (error) {
+      console.error("Error fetching user details:", error);
+      res.status(500).json({
+        message: "An error occurred while fetching user details."
+      });
+    }
+  };
+
+  exports.getUserDetailsbyEmail = async (req, res) => {
+    try {
+        const { email } = req.body; // Assuming the email is passed as a route parameter
+        
+        // Fetch user details from the database based on the email
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.json(user);
+    } catch (error) {
+        console.error("Error fetching user details:", error);
+        res.status(500).json({
+            message: "An error occurred while fetching user details."
+        });
+    }
+};
+
+// updateUserProfile function to update user details
+exports.updateUserProfile = async (req, res) => {
+    const { id } = req.params;
+    const { name, email} = req.body;
+
+    try {
+        // Find the user by ID
+        let user = await User.findById(id);
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Update user data
+        user.name = name || user.name;
+        user.email = email || user.email;
+
+        
+
+        // Save the updated user data
+        await user.save();
+
+        res.status(200).json({ message: 'User profile updated successfully' });
+    } catch (error) {
+        console.error("Error updating user profile:", error);
+        res.status(500).json({ message: "An error occurred while updating user profile" });
+    }
+};
