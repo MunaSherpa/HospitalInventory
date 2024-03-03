@@ -28,9 +28,9 @@ const Register = () => {
             .then((response) => {
                 console.log(response);
                 if (response.status === 201) {
-                    // alert('User registered successfully.'); 
+                    alert('User registered successfully.'); 
                    
-                    // navigate('/login');
+                    navigate('/login');
 
                 } else {
                     alert('User registration failed. Please try again.');

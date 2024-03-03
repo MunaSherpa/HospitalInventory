@@ -1,5 +1,5 @@
 
-const { loginUser, registerUser, forgotPassword, verifyOtp, resetPassword, getUserDetails, getUserDetailsbyEmail } = require("../controller/auth/authController")
+const { loginUser, registerUser, forgotPassword, verifyOtp, resetPassword, getUserDetails, getUserDetailsbyEmail, logOut, updateUserProfile } = require("../controller/auth/authController")
 const { registerDoctor, getDoctorDetails } = require("../controller/doctor/doctor")
 
 const router = require("express").Router()
@@ -13,6 +13,9 @@ router.route("/forgotPassword").post(forgotPassword)
 router.route("/resetPassword/:id/:token").post(resetPassword)
 router.route("/userDetails").get(getUserDetails)
 router.route("/userDetailsbyEmail").post(getUserDetailsbyEmail)
+router.route("/updateUserProfile").post(updateUserProfile)
+router.route("/logout").get(logOut)
+
 
 
 

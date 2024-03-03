@@ -30,7 +30,7 @@ const Login = () => {
         axios.post('http://localhost:3001/login', { email, password })
             .then(result => {
                 console.log(result);
-                console.log(result.data.message);
+                console.log("result"+result.data.message);
 
                 if (result.data.message === "LogIn Success") {
                     alert(result.data.message);

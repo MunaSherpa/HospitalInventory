@@ -64,7 +64,7 @@ console.log(doctorInfo)
 
       console.log('Server response:', response.data);
       setDoctorInfo({
-        image: '', // Reset image field after successful submission
+        image: '', 
         name: '',
         email: '',
         specialist: '',

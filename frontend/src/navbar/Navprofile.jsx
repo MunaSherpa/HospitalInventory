@@ -61,7 +61,15 @@ function NavProfile(props) {
     if (menuItem === 'Profile') {
       navigate(`/profile/${email}`);
     } else if (menuItem === 'Logout') {
-      navigate(`/logout`);
+      axios.get('http://localhost:3001/logout') 
+      .then(response => {
+        alert("User logged out")
+        console.log(response.data)
+        navigate("/")
+      })
+      .catch(error => {
+        console.error('Logout error:', error);
+      });
     }
   };
 

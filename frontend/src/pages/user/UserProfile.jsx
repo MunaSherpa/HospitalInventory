@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { Container, Typography, Grid, Paper, TextField, Button, Box } from '@mui/material';
@@ -6,12 +6,10 @@ import { Container, Typography, Grid, Paper, TextField, Button, Box } from '@mui
 const UserProfile = () => {
   const { email } = useParams();
   const [userData, setUserData] = useState({});
-  const [formValues, setFormValues] = useState({
-    name: '',
-    email: '',
-    password: ''
-  });
-
+  const [name, setName] = useState('');
+  const [userEmail, setUserEmail] = useState('');
+console.log(name);
+console.log(userEmail)
   useEffect(() => {
     axios.post('http://localhost:3001/userDetailsbyEmail', { email: email })
       .then(response => {
@@ -24,15 +22,32 @@ const UserProfile = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormValues({
-      ...formValues,
-      [name]: value
-    });
+    if (name === 'name') {
+      setName(value);
+    } else if (name === 'userEmail') {
+      setUserEmail(value);
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form submitted:", formValues);
+    console.log("Form submitted:",email, name, userEmail);
+    
+    // Make POST request to update user profile
+    axios.post('http://localhost:3001/updateUserProfile', {
+      email: email,
+      name: name,
+      userEmail: userEmail
+    })
+    .then(response => {
+      console.log("Profile updated successfully:", response.data);
+      alert(response.data)
+    
+    })
+    .catch(error => {
+      console.error('Error updating user profile:', error);
+    
+    });
   };
 
   return (
@@ -48,20 +63,12 @@ const UserProfile = () => {
                 <Typography variant="h6" gutterBottom>
                   Name: {userData.name}
                 </Typography>
-
               </Grid>
               <Grid item xs={12}>
                 <Typography variant="h6" gutterBottom>
                   Email: {userData.email}
                 </Typography>
-
               </Grid>
-              {/* <Grid item xs={12}>
-                <Typography variant="h6" gutterBottom>
-                  Role: {userData.role}
-                </Typography>
-                
-              </Grid> */}
             </Paper>
             <Paper elevation={3} style={{ padding: '25px', marginTop: '1.5rem' }}>
               <Grid item xs={12}>
@@ -74,21 +81,20 @@ const UserProfile = () => {
                     name="name"
                     label="Name"
                     variant="outlined"
-                    value={formValues.name}
+                    value={name}
                     onChange={handleInputChange}
                     margin="normal"
                   />
                   <TextField
                     fullWidth
-                    name="email"
+                    name="userEmail"
                     label="Email"
                     type="email"
                     variant="outlined"
-                    value={formValues.email}
+                    value={userEmail}
                     onChange={handleInputChange}
                     margin="normal"
                   />
-
                   <Box sx={{ textAlign: 'center' }}>
                     <Button
                       type="submit"
@@ -99,7 +105,7 @@ const UserProfile = () => {
                         },
                       }}
                     >
-                      Save
+                      Update
                     </Button>
                   </Box>
                 </form>

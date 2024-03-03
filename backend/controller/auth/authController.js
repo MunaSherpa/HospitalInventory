@@ -1,5 +1,4 @@
 const User = require("../../model/userModel")
-const Doctor = require("../../model/doctorSchema")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 // const sendEmail = require("../../services/sendEmail")
@@ -9,41 +8,86 @@ const nodemailer = require('nodemailer')
 
 // register
 
+// exports.registerUser = async (req, res) => {
+//     const { name, email, password } = req.body
+//     if (!name || !email || !password) {
+//         return res.status(400).json({
+//             message: "Please provide name, email and password"
+//         })
+//     }
+
+//     // check if user exist
+//     const existingUser = await User.findOne({ email });
+//     if (existingUser) {
+//         return res.status(400).json({
+//             message: "User with that email already exists."
+//         });
+//     }
+
+//     //else
+
+//     try {
+//         // Create a new user
+//         await User.create({
+//             name,
+//             email,
+//             password: bcrypt.hashSync(password, 10)
+//         });
+//         res.status(201).json({
+//             message: "User registered successfully."
+//         });
+//     } catch (error) {
+//         console.error("Error registering user:", error);
+//         res.status(500).json({
+//             message: "An error occurred while registering the user."
+//         });
+//     }
+// }
+
+
 exports.registerUser = async (req, res) => {
-    const { name, email, password } = req.body
-    if (!name || !email || !password) {
-        return res.status(400).json({
-            message: "Please provide name, email and password"
-        })
-    }
-
-    // check if user exist
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-        return res.status(400).json({
-            message: "User with that email already exists."
-        });
-    }
-
-    //else
-
+    const { name, email, password } = req.body;
+    
     try {
+        if (!name || !email || !password) {
+            return res.status(400).json({
+                message: "Please provide name, email, and password"
+            });
+        }
+
+        // Check if user exists
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({
+                message: "User with that email already exists."
+            });
+        }
+
         // Create a new user
+        const hashedPassword = bcrypt.hashSync(password, 10);
         await User.create({
             name,
             email,
-            password: bcrypt.hashSync(password, 10)
+            password: hashedPassword
         });
         res.status(201).json({
             message: "User registered successfully."
         });
     } catch (error) {
-        console.error("Error registering user:", error);
-        res.status(500).json({
-            message: "An error occurred while registering the user."
-        });
+        if (error.code === 11000 && error.keyPattern && error.keyPattern.email === 1) {
+            // Unique constraint violation (email already exists)
+            return res.status(400).json({
+                message: "User with that email already exists."
+            });
+        } else {
+            // Other database errors
+            console.error("Error registering user:", error);
+            res.status(500).json({
+                message: "An error occurred while registering the user."
+            });
+        }
     }
-}
+};
 
 
 // login
@@ -70,7 +114,7 @@ exports.loginUser = async (req, res) => {
     console.log(userFound[0].password)
 
     // password check
-    const isMatched = bcrypt.compare(password, userFound[0].password)
+    const isMatched = await bcrypt.compare(password, userFound[0].password)
     console.log(isMatched)
 
     if (isMatched) {
@@ -189,31 +233,50 @@ exports.getUserDetails = async (req, res) => {
     }
 };
 
-// updateUserProfile function to update user details
+// updateUserProfile 
 exports.updateUserProfile = async (req, res) => {
-    const { id } = req.params;
-    const { name, email} = req.body;
+    const {  email, name, userEmail } = req.body;
+console.log(email)
+// console.log(name)
+// console.log(userEmail)
+const role = "patient"
 
-    try {
-        // Find the user by ID
-        let user = await User.findById(id);
+  try {
+    // Find the user by email
+    let user = await User.findOne({ email });
 
-        if (!user) {
-            return res.status(404).json({ message: 'User not found' });
-        }
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
 
-        // Update user data
-        user.name = name || user.name;
-        user.email = email || user.email;
+    // Update the user's name and password if provided
+    if (name) {
+      user.name = name;
+    }
+    if (userEmail) {
+      user.email = userEmail;
+    }
+    if (role) {
+        user.role = role; // Update the user's role if provided
+    }
+    // Save the updated user
+    await user.save();
 
-        
-
-        // Save the updated user data
-        await user.save();
-
-        res.status(200).json({ message: 'User profile updated successfully' });
+    res.status(200).json(user);
     } catch (error) {
         console.error("Error updating user profile:", error);
         res.status(500).json({ message: "An error occurred while updating user profile" });
     }
 };
+
+
+//logout
+exports.logOut = async (req, res, next) => {
+    try {
+        res.clearCookie("access_token");
+        res.status(200).json("User Logged out");
+    
+    } catch (error){
+        next(error);
+    }
+}

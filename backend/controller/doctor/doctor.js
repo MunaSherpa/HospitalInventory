@@ -71,22 +71,6 @@ exports.registerDoctor = async (req, res) => {
 };
 
 
-// get doctor details
-// exports.getDoctorsDetails = async (req, res) => {
-//     try {
-//       // Find all doctors in the database
-//       const doctors = await Doctor.find();
-  
-//       // Return the array of doctor objects
-//       return doctors;
-//     } catch (error) {
-//       console.error('Error fetching doctors:', error);
-//       throw error; // Handle or rethrow the error as needed
-//     }
-//   }
-
-
-// doctorController.js
 
 
 

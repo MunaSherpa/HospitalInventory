@@ -15,7 +15,6 @@ const { registerUser, loginUser } = require("./controller/auth/authController")
 //ROUTE HERE
 //route of authRote
 const authRoute = require("./routes/authRoute")// this is require from wich export routes/authRoute
-const userRoute = require("./routes/userRoute");
 const router = require("./routes/authRoute");
 
 

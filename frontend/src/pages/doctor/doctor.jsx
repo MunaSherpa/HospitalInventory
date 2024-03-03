@@ -4,10 +4,14 @@ import { Typography, Box, Grid, Card, CardContent, Button, CardActions, CardMedi
 import Footer from '../../footer/Footer';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { useLocation } from 'react-router-dom';
+import NavProfile from '../../navbar/navprofile';
 
 const Doctor = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [doctors, setDoctors] = useState([]);
+    const location = useLocation();
+    const email = location.state && location.state.email;
     console.log(doctors)
     const handleSearchChange = (event) => {
         setSearchTerm(event.target.value);
@@ -31,7 +35,7 @@ const Doctor = () => {
     console.log(filteredDoctors)
     return (
         <>
-            <Navbar />
+            <NavProfile email={email} />
             <Box>
                 <Typography variant="h4" style={{
                     display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '2rem', paddingTop: '4rem',
