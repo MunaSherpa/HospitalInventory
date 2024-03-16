@@ -10,7 +10,8 @@ const userSchema = new Schema({
     },
     email : {
         type : String,
-        required : [true, 'Email must be provided'] // email aunu paro vanako true
+        required : [true, 'Email must be provided'],
+        unique: true  // email aunu paro vanako true
         
     },
 
@@ -29,7 +30,7 @@ const userSchema = new Schema({
 
 userSchema.pre('save', async function(next) {
     if (!this.isModified('password')) return next();
-    this.password = await bcrypt.hash(this.password, 12);
+    this.password = await bcrypt.hash(this.password, 10);
     next();
   });
   

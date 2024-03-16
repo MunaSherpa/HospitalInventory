@@ -1,53 +1,13 @@
 const User = require("../../model/userModel")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
-// const sendEmail = require("../../services/sendEmail")
-
 const nodemailer = require('nodemailer')
 
 
 // register
-
-// exports.registerUser = async (req, res) => {
-//     const { name, email, password } = req.body
-//     if (!name || !email || !password) {
-//         return res.status(400).json({
-//             message: "Please provide name, email and password"
-//         })
-//     }
-
-//     // check if user exist
-//     const existingUser = await User.findOne({ email });
-//     if (existingUser) {
-//         return res.status(400).json({
-//             message: "User with that email already exists."
-//         });
-//     }
-
-//     //else
-
-//     try {
-//         // Create a new user
-//         await User.create({
-//             name,
-//             email,
-//             password: bcrypt.hashSync(password, 10)
-//         });
-//         res.status(201).json({
-//             message: "User registered successfully."
-//         });
-//     } catch (error) {
-//         console.error("Error registering user:", error);
-//         res.status(500).json({
-//             message: "An error occurred while registering the user."
-//         });
-//     }
-// }
-
-
 exports.registerUser = async (req, res) => {
     const { name, email, password } = req.body;
-    
+
     try {
         if (!name || !email || !password) {
             return res.status(400).json({
@@ -75,7 +35,6 @@ exports.registerUser = async (req, res) => {
         });
     } catch (error) {
         if (error.code === 11000 && error.keyPattern && error.keyPattern.email === 1) {
-            // Unique constraint violation (email already exists)
             return res.status(400).json({
                 message: "User with that email already exists."
             });
@@ -90,63 +49,64 @@ exports.registerUser = async (req, res) => {
 };
 
 
+
+
+
+
 // login
-
 exports.loginUser = async (req, res) => {
-    const { email, password } = req.body
-    if (!email || !password) {
-        return res.status(400).json({ // retrun do the work of else , else na garnu paros vanara return garako
-            message: "Please provide Email, Password."
-        })
-    }
+    const { email, password } = req.body;
 
-    // check if that email user exists or not
-    const userFound = await User.find({ email: email })
+    try {
+        if (!email || !password) {
+            return res.status(400).json({
+                message: "Please provide email and password."
+            });
+        }
 
-    if (userFound.length == 0) { // is the ==0 then is not found
-        // console.log("kkkkk")
-        return res.status(401).json({ // 404 is not found
-            // message: "User with that Email is Not Registered."
-            message: "Invalid Email or Password."
-        })
-    }
-    console.log(password)
-    console.log(userFound[0].password)
+        // Check if user exists
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(401).json({
+                message: "Email is not registered."
+            });
+        }
 
-    // password check
-    const isMatched = await bcrypt.compare(password, userFound[0].password)
-    console.log(isMatched)
+        // Check password
+        const isMatch =  bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return res.status(401).json({
+                message: "Invalid email or password."
+            });
+        }
 
-    if (isMatched) {
-        // generate token
-        // token is unique identifier which check the which person is login
-        const token = jwt.sign({ id: userFound[0]._id }, process.env.SECRET_KEY, { //  jwt.sign({id : userFound[0]._id} is the playload encript which we hide ) and process.env.SECRET_KEY is key which we can do unlock and lock from this.
-            expiresIn: '1000' // this line do how many day or min expiress login happen
-        })
+            const token = jwt.sign({ id: user._id }, process.env.SECRET_KEY);
 
+            // Store user object in session
+        req.session.user = user;
+        
         res.status(200).json({
             message: "LogIn Success",
             token
-        })
+        });
+    } catch (error) {
+        console.error("Error logging in:", error);
+        res.status(500).json({
+            message: "An error occurred while logging in."
+        });
     }
-    else {
-        console.log("jjjj")
+};
 
-        res.status(401).json({
-            message: "Invalid Email and Password"
-        })
-    }
-}
+
 
 
 // another forgot password code 
-
 exports.forgotPassword = async (req, res) => {
     const { email } = req.body;
     User.findOne({ email: email })
         .then(user => {
             if (!user) {
-                return res.send({ Status: "Email is Not Registered" })
+                return res.status(404).json({ message: "Email is not registered." });
             }
             const token = jwt.sign({ id: user._id }, "jwtSecretKey", { expiresIn: "30d" })
             var transporter = nodemailer.createTransport({
@@ -160,8 +120,8 @@ exports.forgotPassword = async (req, res) => {
             });
 
             var mailOptions = {
-                from: 'munasherpa31@gmail.com',
-                to: 'munasherpa31@gmail.com',
+                from: process.env.EMAIL_USER,
+                to: email,
                 subject: 'Reset your password',
                 text: `http://localhost:5173/resetPassword/${user._id}/${token}`
             };
@@ -201,22 +161,22 @@ exports.resetPassword = async (req, res) => {
 
 exports.getUserDetails = async (req, res) => {
     try {
-      // Fetch all doctors from the database
-      const user = await User.find();
-      res.json(user);
-    //   console.log(user);
+        // Fetch all doctors from the database
+        const user = await User.find();
+        res.json(user);
+        //   console.log(user);
     } catch (error) {
-      console.error("Error fetching user details:", error);
-      res.status(500).json({
-        message: "An error occurred while fetching user details."
-      });
+        console.error("Error fetching user details:", error);
+        res.status(500).json({
+            message: "An error occurred while fetching user details."
+        });
     }
-  };
+};
 
-  exports.getUserDetailsbyEmail = async (req, res) => {
+exports.getUserDetailsbyEmail = async (req, res) => {
     try {
         const { email } = req.body; // Assuming the email is passed as a route parameter
-        
+
         // Fetch user details from the database based on the email
         const user = await User.findOne({ email });
 
@@ -235,34 +195,34 @@ exports.getUserDetails = async (req, res) => {
 
 // updateUserProfile 
 exports.updateUserProfile = async (req, res) => {
-    const {  email, name, userEmail } = req.body;
-console.log(email)
-// console.log(name)
-// console.log(userEmail)
-const role = "patient"
+    const { email, name, userEmail } = req.body;
+    console.log(email)
+    // console.log(name)
+    // console.log(userEmail)
+    const role = "patient"
 
-  try {
-    // Find the user by email
-    let user = await User.findOne({ email });
+    try {
+        // Find the user by email
+        let user = await User.findOne({ email });
 
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
-    }
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
 
-    // Update the user's name and password if provided
-    if (name) {
-      user.name = name;
-    }
-    if (userEmail) {
-      user.email = userEmail;
-    }
-    if (role) {
-        user.role = role; // Update the user's role if provided
-    }
-    // Save the updated user
-    await user.save();
+        // Update the user's name and password if provided
+        if (name) {
+            user.name = name;
+        }
+        if (userEmail) {
+            user.email = userEmail;
+        }
+        if (role) {
+            user.role = role; // Update the user's role if provided
+        }
+        // Save the updated user
+        await user.save();
 
-    res.status(200).json(user);
+        res.status(200).json(user);
     } catch (error) {
         console.error("Error updating user profile:", error);
         res.status(500).json({ message: "An error occurred while updating user profile" });
@@ -275,8 +235,8 @@ exports.logOut = async (req, res, next) => {
     try {
         res.clearCookie("access_token");
         res.status(200).json("User Logged out");
-    
-    } catch (error){
+
+    } catch (error) {
         next(error);
     }
 }

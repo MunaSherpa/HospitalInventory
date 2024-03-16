@@ -1,6 +1,8 @@
 
 const { loginUser, registerUser, forgotPassword, verifyOtp, resetPassword, getUserDetails, getUserDetailsbyEmail, logOut, updateUserProfile } = require("../controller/auth/authController")
-const { registerDoctor, getDoctorDetails } = require("../controller/doctor/doctor")
+const { registerDoctor, getDoctorDetails, getDoctorDetailbyId } = require("../controller/doctor/doctor")
+const { bookAppointment,verifyPayment  } = require("../controller/bookAppointment/bookAppointment")
+
 
 const router = require("express").Router()
 
@@ -23,6 +25,15 @@ router.route("/logout").get(logOut)
 //doctor routes here
 router.route("/doctorRegister").post(registerDoctor)
 router.route("/doctorDetails").get(getDoctorDetails)
+router.route("/doctorDetailbyId").post(getDoctorDetailbyId)
+
+
+//bookAppointment routes here
+router.route("/bookAppointment").post(bookAppointment);
+router.route("/bookAppointment/:id").get(bookAppointment);
+router.route("/verifyPayment/:id").get(verifyPayment);
+
+
 
 
 

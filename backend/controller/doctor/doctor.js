@@ -87,3 +87,23 @@ exports.getDoctorDetails = async (req, res) => {
     });
   }
 };
+//doctorDetailbyId
+exports.getDoctorDetailbyId = async (req, res) => {
+  try {
+      const { _id} = req.body; // Assuming the email is passed as a route parameter
+console.log(_id)
+      // Fetch doctorid details from the database based on the id
+      const doctor = await Doctor.findOne({ _id });
+
+      if (!doctor) {
+          return res.status(404).json({ message: 'doctorid not found' });
+      }
+
+      res.json(doctor);
+  } catch (error) {
+      console.error("Error fetching doctorid details:", error);
+      res.status(500).json({
+          message: "An error occurred while fetching doctorid details."
+      });
+  }
+};
