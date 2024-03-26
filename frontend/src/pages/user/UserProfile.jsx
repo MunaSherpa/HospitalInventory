@@ -10,6 +10,7 @@ const UserProfile = () => {
   const [userEmail, setUserEmail] = useState('');
 console.log(name);
 console.log(userEmail)
+console.log("Email:", email); 
   useEffect(() => {
     axios.post('http://localhost:3001/userDetailsbyEmail', { email: email })
       .then(response => {
@@ -41,7 +42,7 @@ console.log(userEmail)
     })
     .then(response => {
       console.log("Profile updated successfully:", response.data);
-      alert(response.data)
+      alert(response.data.message);
     
     })
     .catch(error => {
@@ -49,6 +50,9 @@ console.log(userEmail)
     
     });
   };
+
+
+  
 
   return (
     <Container>

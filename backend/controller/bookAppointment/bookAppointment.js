@@ -5,6 +5,55 @@ const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
 const CryptoJS = require('crypto-js');
 const { v4: uuidv4 } = require('uuid');
+const axios = require("axios");
+
+
+
+// exports.khaltiPayment = async (req, res) => {
+//     const payload = req.body;
+//     const khaltiResponse = await axios.post('https://a.khalti.com/api/v2/epayment/initiate/', 
+//     payload, 
+//     {
+//         headers: {
+//             "Authorization": "test_public_key_093dba2234784c1da07f45e750f1611e" 
+//         },
+//     }
+    
+//     )
+//     console.log(khaltiResponse);
+// }
+
+exports.eSewaPayment = async (req, res) => {
+    const payload = req.body;
+
+
+    // Generate transaction UUID
+    const formattedTime = new Date().toISOString().slice(2, 10).replace(/-/g, '') +
+        '-' + new Date().getHours() + new Date().getMinutes() + new Date().getSeconds();
+    payload.transaction_uuid = formattedTime;
+
+    // Prepare data for signature generation
+    const { total_amount, transaction_uuid, product_code, secret } = payload;
+    
+    // Generate signature
+    const dataForSignature = `total_amount=${total_amount},transaction_uuid=${transaction_uuid},product_code=${product_code}`;
+    
+    const signature = CryptoJS.HmacSHA256(dataForSignature, secret).toString(CryptoJS.enc.Base64);
+    payload.signature = signature;
+    console.log(payload);
+
+    // Send payment request to eSewa API
+    try {
+        const eSewaResponse = await axios.post('https://rc-epay.esewa.com.np/api/epay/main/v2/form', payload);
+        console.log(eSewaResponse.data); // Handle response as needed
+        res.status(200).json({ success: true, message: 'Payment initiated successfully' });
+    } catch (error) {
+        console.error('Error initiating payment:', error.response ? error.response.data : error.message);
+        res.status(500).json({ success: false, message: 'Failed to initiate payment' });
+    }
+};
+
+
 
 
 

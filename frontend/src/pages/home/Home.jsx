@@ -6,7 +6,7 @@ import img1 from '../../assets/img1.png';
 import img2 from '../../assets/img2.png';
 import img3 from '../../assets/img3.png';
 import Footer from '../../footer/Footer';
-import NavProfile from '../../navbar/navprofile';
+import NavProfile from '../../navbar/NavProfile';
 
 const Home = () => {
     const location = useLocation();
@@ -149,21 +149,16 @@ const Home = () => {
                                             {doctor.specialist}
                                         </Typography>
                                     </CardContent>
-                                    <CardActions>
+                                    <Box style={{display: 'flex', justifyContent: 'center'}}>
+                                    {/* <CardActions> */}
+                                        
                                         <Button
                                             size="small"
                                             style={{
                                                 backgroundColor: 'green',
-                                                color: 'white',
-                                                marginLeft: '4rem',
-                                            }}
-                                        >
-                                            View Profile
-                                        </Button>
-                                        <Button
-                                            size="small"
-                                            style={{
-                                                backgroundColor: 'green',
+                                                // textAlign:'center',
+                                                // marginLeft: '5rem',
+                                                marginBottom:'1rem',
                                                 color: 'white',
                                                 '&:hover': {
                                                     backgroundColor: 'darkgreen',
@@ -172,7 +167,8 @@ const Home = () => {
                                         >
                                             Book Appointment
                                         </Button>
-                                    </CardActions>
+                                    {/* </CardActions> */}
+                                    </Box>
                                 </Card>
                             </div>
                         </Grid>

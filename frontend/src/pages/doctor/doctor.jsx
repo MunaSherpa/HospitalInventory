@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import Navbar from '../../navbar/Navbar';
-import { Typography, Box, Grid, Card, CardContent, Button, CardActions, CardMedia, TextField } from '@mui/material';
+import { Typography, Box, Grid, Card, CardContent, Button,  CardMedia, TextField } from '@mui/material';
 import Footer from '../../footer/Footer';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
-import NavProfile from '../../navbar/navprofile';
+import NavProfile from '../../navbar/NavProfile';
+import { useNavigate } from "react-router-dom";
+
 
 const Doctor = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [doctors, setDoctors] = useState([]);
+    const navigate = useNavigate();
     const location = useLocation();
     const email = location.state && location.state.email;
     console.log(doctors)
@@ -33,6 +35,10 @@ const Doctor = () => {
     );
 
     console.log(filteredDoctors)
+
+    const handleBookAppointment = (doctorid) => {
+        navigate(`/bookappointment/${doctorid}`);
+    }
     return (
         <>
             <NavProfile email={email} />
@@ -57,10 +63,10 @@ const Doctor = () => {
 
                         <Grid item xs={12} sm={6} md={4} key={index}>
                             <div style={{ paddingLeft: '2rem', paddingRight: '2rem', paddingBottom: '2rem' }}>
-                               
-                                
+
+
                                 <Card>
-                                    
+
                                     <CardMedia
                                         component="img"
                                         height="250"
@@ -76,25 +82,14 @@ const Doctor = () => {
                                             {doctor.specialist}
                                         </Typography>
                                     </CardContent>
-                                    <CardActions>
+                                    <Box style={{ display: 'flex', justifyContent: 'center' }}>
+
                                         <Button
                                             size="small"
+                                            onClick={() => handleBookAppointment(doctor._id)}
                                             style={{
                                                 backgroundColor: 'green',
-                                                color: 'white',
-                                                marginLeft: '4rem',
-                                            }}
-                                        >
-                                            <Link to="/viewdoctor" style={{
-                                                backgroundColor: 'green',
-                                                color: 'white',
-                                                textDecoration: 'none'
-                                            }}>View Profile</Link>
-                                        </Button>
-                                        <Button
-                                            size="small"
-                                            style={{
-                                                backgroundColor: 'green',
+                                                marginBottom: '1rem',
                                                 color: 'white',
                                                 '&:hover': {
                                                     backgroundColor: 'darkgreen',
@@ -103,7 +98,9 @@ const Doctor = () => {
                                         >
                                             Book Appointment
                                         </Button>
-                                    </CardActions>
+
+                                    </Box>
+
                                 </Card>
                             </div>
                         </Grid>

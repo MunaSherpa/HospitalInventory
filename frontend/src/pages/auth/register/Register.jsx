@@ -20,8 +20,6 @@ const Register = () => {
     const navigate = useNavigate()
     
 
-
-
     const handleSubmit = (e) => {
         e.preventDefault()
         axios.post('http://localhost:3001/register', { name, email, password })
@@ -106,7 +104,6 @@ const Register = () => {
                                 name="name"
                                 autoComplete="name"
                                 autoFocus
-                                // onChange={(e)=> {setUserName(e.target.value);}}
                                 onChange={(e) => setName(e.target.value)}
 
 
@@ -123,9 +120,6 @@ const Register = () => {
                                 autoComplete="email"
                                 autoFocus
                                 onChange={(e) => { setEmail(e.target.value); }}
-
-
-
                             />
                             <TextField
                                 margin="normal"

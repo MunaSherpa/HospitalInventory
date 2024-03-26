@@ -80,11 +80,15 @@ exports.loginUser = async (req, res) => {
             });
         }
 
-            const token = jwt.sign({ id: user._id }, process.env.SECRET_KEY);
+            // const token = jwt.sign({ id: user._id }, process.env.SECRET_KEY);
+            const token = jwt.sign({ id: user._id }, "jwtSecretKey", { expiresIn: "1d" })
+
 
             // Store user object in session
-        req.session.user = user;
+        // req.session.user = user;
+
         
+
         res.status(200).json({
             message: "LogIn Success",
             token
@@ -204,6 +208,7 @@ exports.updateUserProfile = async (req, res) => {
     try {
         // Find the user by email
         let user = await User.findOne({ email });
+        // let user = await User.findOne({ email: userEmail });
 
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
@@ -222,7 +227,9 @@ exports.updateUserProfile = async (req, res) => {
         // Save the updated user
         await user.save();
 
-        res.status(200).json(user);
+        // res.status(200).json(user);
+        // res.status(200).json(user);
+        res.status(200).json({ message: "Profile update successfully"});
     } catch (error) {
         console.error("Error updating user profile:", error);
         res.status(500).json({ message: "An error occurred while updating user profile" });

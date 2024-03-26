@@ -143,21 +143,16 @@ const NotLoggedInPage = () => {
                                             {doctor.specialist}
                                         </Typography>
                                     </CardContent>
-                                    <CardActions>
+                                    <Box style={{display: 'flex', justifyContent: 'center'}}>
+                                    {/* <CardActions> */}
+                                        
                                         <Button
                                             size="small"
                                             style={{
                                                 backgroundColor: 'green',
-                                                color: 'white',
-                                                marginLeft: '4rem',
-                                            }}
-                                        >
-                                            View Profile
-                                        </Button>
-                                        <Button
-                                            size="small"
-                                            style={{
-                                                backgroundColor: 'green',
+                                                // textAlign:'center',
+                                                // marginLeft: '5rem',
+                                                marginBottom:'1rem',
                                                 color: 'white',
                                                 '&:hover': {
                                                     backgroundColor: 'darkgreen',
@@ -166,7 +161,8 @@ const NotLoggedInPage = () => {
                                         >
                                             Book Appointment
                                         </Button>
-                                    </CardActions>
+                                    {/* </CardActions> */}
+                                    </Box>
                                 </Card>
                             </div>
                         </Grid>

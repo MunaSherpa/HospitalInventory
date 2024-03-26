@@ -35,12 +35,9 @@ const Login = () => {
                 if (result.data.message === "LogIn Success") {
                     alert(result.data.message);
                     setSuccessState(true);
-                    // navigate('/');
                     navigate('/homepage', { state: { email: email } }); // Passing email as state
                
-                // }
                 } else {
-                    // navigate('/');
                     alert(result.data.message);
                 }
             })

@@ -3,8 +3,8 @@ import Home from '../pages/home/Home'
 import Login from '../pages/auth/login/Login'
 import Register from '../pages/auth/register/Register'
 import {Routes, Route} from 'react-router-dom'
-import ForgotPassword from '../pages/auth/ForgotPassword/ForgotPassword'
 import ResetPassword from '../pages/auth/forgotPassword/ResetPassword'
+import ForgotPassword from '../pages/auth/forgotPassword/ForgotPassword'
 import Navbar from '../navbar/Navbar'
 import Footer from '../footer/Footer'
 import Doctor from '../pages/doctor/doctor'
@@ -15,9 +15,12 @@ import AddDoctor from '../layout/admin/AddDoctor'
 import Nav from '../layout/admin/Nav'
 import Sidenav from '../layout/admin/Sidenav'
 import ViewDoctor from '../pages/doctor/ViewDoctor'
-import NavProfile from '../navbar/navprofile'
 import UserProfile from '../pages/user/UserProfile'
 import NotLoggedInPage from '../pages/user/NotLoggedPage'
+import BookAppointment from '../pages/doctor/BookAppointment'
+import NavProfile from '../navbar/NavProfile'
+import Testesewa from '../testesewa'
+
 
 
 
@@ -39,6 +42,10 @@ const Routers = () => {
         <Route path='/blog' element={<Blogs/>}/>
         <Route path='/viewdoctor' element={<ViewDoctor/>}/>
         <Route path="/profile/:email" element={<UserProfile />} />
+        <Route path="/bookappointment/:doctorid" element={<BookAppointment />} />
+
+
+        <Route path='/testesewa' element={<Testesewa/>}/>
 
 
 

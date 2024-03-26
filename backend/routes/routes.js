@@ -1,7 +1,7 @@
 
 const { loginUser, registerUser, forgotPassword, verifyOtp, resetPassword, getUserDetails, getUserDetailsbyEmail, logOut, updateUserProfile } = require("../controller/auth/authController")
 const { registerDoctor, getDoctorDetails, getDoctorDetailbyId } = require("../controller/doctor/doctor")
-const { bookAppointment,verifyPayment  } = require("../controller/bookAppointment/bookAppointment")
+const { bookAppointment,verifyPayment, khaltiPayment, eSewaPayment  } = require("../controller/bookAppointment/bookAppointment")
 
 
 const router = require("express").Router()
@@ -32,6 +32,9 @@ router.route("/doctorDetailbyId").post(getDoctorDetailbyId)
 router.route("/bookAppointment").post(bookAppointment);
 router.route("/bookAppointment/:id").get(bookAppointment);
 router.route("/verifyPayment/:id").get(verifyPayment);
+
+
+router.route("/esewapay").post(eSewaPayment);
 
 
 
