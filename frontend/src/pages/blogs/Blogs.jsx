@@ -1,11 +1,26 @@
-import React from 'react';
-import { Container, Typography, Grid, Card, CardContent, CardActions, Box } from '@mui/material';
-import blog1 from "../../assets/blog1.png"
-import blog2 from "../../assets/blog2.png"
+import React, { useState, useEffect } from 'react';
+import { Container, Typography, Grid, Card, CardContent, Box, CardMedia } from '@mui/material';
+import axios from 'axios'; 
 import Navbar from '../../navbar/Navbar';
 import Footer from '../../footer/Footer';
 
 const Blogs = () => {
+  const [blogs, setBlogs] = useState([]);
+
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        const response = await axios.get('http://localhost:3001/allBlogs'); 
+        setBlogs(response.data);
+      } catch (error) {
+        console.error('Error fetching blogs:', error);
+        // Handle error, show error message to the user
+      }
+    };
+
+    fetchBlogs();
+  }, []); // Empty dependency array ensures that this effect runs only once after the component mounts
+
   return (
     <>
       <Navbar />
@@ -24,45 +39,30 @@ const Blogs = () => {
         </Typography>
 
         <Grid container justifyContent="center" spacing={2}>
-          <Grid item xs={12} sm={6}>
-            <Card sx={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}>
-              <img src={blog1} alt="Blog Image" style={{ width: '100%', height: 'auto' }} />
-              <CardContent>
-                <Typography variant="h5" component="h2">
-                  What is Mental Health? Symptom and Treatment
-                </Typography>
-                <Typography variant="subtitle2" color="textSecondary">
-                  June 08, 2023
-                </Typography>
-                <Typography variant="body1" paragraph>
-                  Mental health is all about your emotional, psychological and social well-being. It is how we feel, think and act. I would say “Mental health is your asset.” - Sneha A. Chaudhary (One of the Best Psychiatrists in Kathmandu).
-                </Typography>
-              </CardContent>
-              <CardActions>
-              </CardActions>
-            </Card>  
-          </Grid>
-        </Grid>
-        <Box mt={4} />
-        <Grid container justifyContent="center" spacing={2}>
-          <Grid item xs={12} sm={6}>
-            <Card sx={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', }}>
-              <img src={blog2} alt="Blog Image" style={{ width: '100%', height: 'auto' }} />
-              <CardContent>
-                <Typography variant="h5" component="h2">
-                  What is Mental Health? Symptom and Treatment
-                </Typography>
-                <Typography variant="subtitle2" color="textSecondary">
-                  June 08, 2023
-                </Typography>
-                <Typography variant="body1" paragraph>
-                  Mental health is all about your emotional, psychological and social well-being. It is how we feel, think and act. I would say “Mental health is your asset.” - Sneha A. Chaudhary (One of the Best Psychiatrists in Kathmandu).
-                </Typography>
-              </CardContent>
-              <CardActions>
-              </CardActions>
-            </Card>       
-          </Grid>
+          {blogs.map(blog => (
+            <Grid item key={blog._id} xs={12} sm={6}>
+              <Card sx={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}>
+                <CardMedia
+                  component="img"
+                  height="250"
+                  image={`http://localhost:3001/${blog.image}`}
+                  alt="Blog Image"
+                  style={{ objectFit: 'cover' }}
+                />
+                <CardContent>
+                  <Typography variant="h5" component="h2">
+                    {blog.title}
+                  </Typography>
+                  <Typography variant="subtitle2" color="textSecondary">
+                    {blog.createdDate}
+                  </Typography>
+                  <Typography variant="body1" paragraph>
+                    {blog.description}
+                  </Typography>
+                </CardContent>
+              </Card>  
+            </Grid>
+          ))}
         </Grid>
       </Container>
       <Box mt={4} />

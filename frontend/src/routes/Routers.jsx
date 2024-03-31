@@ -11,15 +11,18 @@ import Doctor from '../pages/doctor/doctor'
 import Pharmacy from '../pages/pharmacy/Pharmacy'
 import Blogs from '../pages/blogs/Blogs'
 import { Dashboard } from '@mui/icons-material'
-import AddDoctor from '../layout/admin/AddDoctor'
-import Nav from '../layout/admin/Nav'
-import Sidenav from '../layout/admin/Sidenav'
+import AddDoctor from '../dashboard/addDoctor/AddDoctor'
+import Nav from '../dashboard/Nav'
+import Sidenav from '../dashboard/Sidenav'
 import ViewDoctor from '../pages/doctor/ViewDoctor'
 import UserProfile from '../pages/user/UserProfile'
 import NotLoggedInPage from '../pages/user/NotLoggedPage'
 import BookAppointment from '../pages/doctor/BookAppointment'
 import NavProfile from '../navbar/NavProfile'
 import Testesewa from '../testesewa'
+import CreateBlog from '../dashboard/createBlog/CreateBlog'
+import PostBlogs from '../dashboard/createBlog/PostBlogs'
+import UpdateBlog from '../dashboard/createBlog/UpdateBlog'
 
 
 
@@ -49,11 +52,16 @@ const Routers = () => {
 
 
 
-        {/* <Route path="/admin/" element={<AdminLayout />}></Route> */}
-        <Route path='/admin/dashboard' element={<Dashboard/>}/>
-        <Route path='/admin/adddoctor' element={<AddDoctor/>}/>
-        <Route path='/admin/nav' element={<Nav/>}/>
-        <Route path='/admin/sidenav' element={<Sidenav/>}/>
+        { /* admin dashboard */ }
+        <Route path='/dashboard/adddoctor' element={<AddDoctor/>}/>
+        <Route path='/dashboard/nav' element={<Nav/>}/>
+        <Route path='/dashboard/sidenav' element={<Sidenav/>}/>
+        <Route path='/dashboard/createBlog' element={<CreateBlog/>}/>
+        <Route path='/dashboard/blog' element={<PostBlogs/>}/>
+        <Route path='/dashboard/updateBlog/:id' element={<UpdateBlog/>}/>
+
+
+
          
     </Routes>
 

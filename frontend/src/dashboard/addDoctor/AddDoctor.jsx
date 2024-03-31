@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Button, TextField, Typography, Container, Grid, Box } from '@mui/material';
-import Sidenav from './Sidenav';
-import Nav from './Nav';
+import Sidenav from '../Sidenav';
+import Nav from '../Nav';
 
 const AddDoctor = () => {
   const [doctorInfo, setDoctorInfo] = useState({

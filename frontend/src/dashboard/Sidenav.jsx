@@ -14,7 +14,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import { useNavigate } from 'react-router-dom';
-import { useAppStore } from '../../../appStore';
+import { useAppStore } from '../../appStore';
 
 
 
@@ -88,7 +88,7 @@ export default function Sidenav() {
                 </DrawerHeader>
                 <Divider />
                 <List>
-                    <ListItem disablePadding sx={{ display: 'block' }} onClick={() => { navigate("/admin/adddoctor") }}>
+                    <ListItem disablePadding sx={{ display: 'block' }} onClick={() => { navigate("/dashboard/adddoctor") }}>
                         <ListItemButton
                             sx={{
                                 minHeight: 48,
@@ -108,7 +108,7 @@ export default function Sidenav() {
                             <ListItemText primary="AddDoctor" sx={{ opacity: open ? 1 : 0 }} />
                         </ListItemButton>
                     </ListItem>
-                    <ListItem disablePadding sx={{ display: 'block' }} onClick={()=>{navigate("/admin/about")}}>
+                    <ListItem disablePadding sx={{ display: 'block' }} onClick={()=>{navigate("/dashboard/createBlog")}}>
                         <ListItemButton
                             sx={{
                                 minHeight: 48,
@@ -125,7 +125,27 @@ export default function Sidenav() {
                             >
                                 <InboxIcon />
                             </ListItemIcon>
-                            <ListItemText primary="About" sx={{ opacity: open ? 1 : 0 }} />
+                            <ListItemText primary="CreateBlog" sx={{ opacity: open ? 1 : 0 }} />
+                        </ListItemButton>
+                    </ListItem>
+                    <ListItem disablePadding sx={{ display: 'block' }} onClick={()=>{navigate("/dashboard/blog")}}>
+                        <ListItemButton
+                            sx={{
+                                minHeight: 48,
+                                justifyContent: open ? 'initial' : 'center',
+                                px: 2.5,
+                            }}
+                        >
+                            <ListItemIcon
+                                sx={{
+                                    minWidth: 0,
+                                    mr: open ? 3 : 'auto',
+                                    justifyContent: 'center',
+                                }}
+                            >
+                                <InboxIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="PostBlogs" sx={{ opacity: open ? 1 : 0 }} />
                         </ListItemButton>
                     </ListItem>
                     <ListItem disablePadding sx={{ display: 'block' }} onClick={()=>{navigate("/admin/settings")}}>

@@ -6,7 +6,7 @@ const nodemailer = require('nodemailer');
 const CryptoJS = require('crypto-js');
 const { v4: uuidv4 } = require('uuid');
 const axios = require("axios");
-
+const crypto = require("crypto")
 
 
 // exports.khaltiPayment = async (req, res) => {
@@ -23,30 +23,167 @@ const axios = require("axios");
 //     console.log(khaltiResponse);
 // }
 
+
+// exports.eSewaPayment = async (req, res) => {
+//     const payload = req.body;
+//     console.log(payload);
+
+//     const sign = this.creatSignature(
+//         `total_amount =${payload.total_amount},transaction_uuid=${payload.doctorid},product_code=EPAYTEST`,
+//     )
+ 
+
+//     const formData = {
+//         amount: '100',
+//         product_delivery_charge: "0",
+//         product_service_charge: "0",
+//         tax_amount: "0",
+//         signature: sign,
+//         total_amount: payload.total_amount,
+//         transaction_uuid: '',
+//         product_code: 'EPAYTEST',
+//         success_url: 'https://esewa.com.np', // success URL
+//         failure_url: 'https://google.com', // failure URL
+//         signed_field_names: 'total_amount,transaction_uuid,product_code'
+//     };
+    
+
+
+//     var currentTime = new Date();
+//     var formattedTime = currentTime.toISOString().slice(2, 10).replace(/-/g, '') + '-' + currentTime.getHours() +
+//         currentTime.getMinutes() + currentTime.getSeconds();
+//         formData.transaction_uuid = formattedTime;
+// console.log(formData.transaction_uuid);
+
+    
+//     // Send payment request to eSewa API
+//     // var currentTime = new Date();
+//     //         var formattedTime = currentTime.toISOString().slice(2, 10).replace(/-/g, '') + '-' + currentTime.getHours() +
+//     //             currentTime.getMinutes() + currentTime.getSeconds();
+//     //             formData.transaction_uuid = formattedTime;
+//     //     console.log(formData.transaction_uuid);
+//     try {
+
+//         const secret = "8gBm/:&EnhH.1/q";
+//         const hash = CryptoJS.HmacSHA256(
+//             `total_amount =${formData.total_amount},transaction_uuid=${formData.transaction_uuid},product_code=${formData.product_code}`,
+//             secret
+//         );
+//         const hashInBase64 = CryptoJS.enc.Base64.stringify(hash);
+
+//         console.log(hashInBase64);
+//         formData.signature = hashInBase64;
+//         // Set the signature in the form stat
+
+//         console.log(formData.signature)
+//         console.log(formData);
+
+        
+//         // const eSewaResponse = await axios.post('https://rc-epay.esewa.com.np/api/epay/main/v2/form', payload);
+//        console.log("Data Sent Successfully"); // Handle response as needed
+//         res.status(200).json({ success: true, message: 'Payment initiated successfully', formData  });
+//     } catch (error) {
+//         console.error('Error initiating payment:', error.response ? error.response.data : error.message);
+//         res.status(500).json({ success: false, message: 'Failed to initiate payment' });
+//     }
+// };
+
+// exports.creatSignature = (message) =>{
+//     console.log("Run")
+//     const secret_key = "8gBm/:&EnhH.1/q"
+//     const hmac = crypto.createHmac("sha256", secret_key);
+//     hmac.update(message);
+//     console.log(hmac);
+// }
+
+
+
+
+// exports.eSewaPayment = async (req, res) => {
+//     const payload = req.body;
+//     console.log(payload);
+    
+//     // Generate transaction UUID
+//     var currentTime = new Date();
+//     var formattedTime = currentTime.toISOString().slice(2, 10).replace(/-/g, '') + '-' + 
+//         currentTime.getHours() + currentTime.getMinutes() + currentTime.getSeconds();
+
+//     // Create message for signature
+//     const message = `total_amount=${payload.total_amount},transaction_uuid=${formattedTime},product_code=EPAYTEST`;
+    
+//     try {
+//         // Generate signature
+//         const sign = await this.createSignature(message);
+        
+//         // Construct form data
+//         const formData = {
+//             amount: '100',
+//             tax_amount: '0',
+//             total_amount: '100',
+//             product_delivery_charge: "0",
+//             product_service_charge: "0",
+//             signature: sign,
+//             transaction_uuid: formattedTime,
+//             product_code: 'EPAYTEST',
+//             success_url: 'https://esewa.com.np', // success URL
+//             failure_url: 'https://google.com', // failure URL
+//             signed_field_names: 'total_amount,transaction_uuid,product_code'
+//         };
+
+//         console.log("Data Sent Successfully");
+//         console.log(formData);
+//         res.status(200).json({ success: true, message: 'Payment initiated successfully', formData });
+//     } catch (error) {
+//         console.error('Error initiating payment:', error.response ? error.response.data : error.message);
+//         res.status(500).json({ success: false, message: 'Failed to initiate payment' });
+//     }
+// };
+
+// exports.createSignature = async (message) => {
+//     console.log("Run");
+//     const secret_key = "8gBm/:&EnhH.1/q";
+//     const hmac = crypto.createHmac("sha256", secret_key);
+//     hmac.update(message);
+//     const signature = hmac.digest('base64');
+//     console.log(signature);
+//     return signature;
+// };
+
 exports.eSewaPayment = async (req, res) => {
     const payload = req.body;
-
-
-    // Generate transaction UUID
-    const formattedTime = new Date().toISOString().slice(2, 10).replace(/-/g, '') +
-        '-' + new Date().getHours() + new Date().getMinutes() + new Date().getSeconds();
-    payload.transaction_uuid = formattedTime;
-
-    // Prepare data for signature generation
-    const { total_amount, transaction_uuid, product_code, secret } = payload;
-    
-    // Generate signature
-    const dataForSignature = `total_amount=${total_amount},transaction_uuid=${transaction_uuid},product_code=${product_code}`;
-    
-    const signature = CryptoJS.HmacSHA256(dataForSignature, secret).toString(CryptoJS.enc.Base64);
-    payload.signature = signature;
     console.log(payload);
+    
+   const uid = uuidv4();
+    const secret_key = "8gBm/:&EnhH.1/q";
 
-    // Send payment request to eSewa API
+   const message = `total_amount=${payload.total_amount},transaction_uuid=${uid},product_code=EPAYTEST`;
+   const hash = CryptoJS.HmacSHA256(message, secret_key);
+   const hashInBase64 = CryptoJS.enc.Base64.stringify(hash);
+   console.log(uid);
+   console.log(hashInBase64);
+
+
+
+    
     try {
-        const eSewaResponse = await axios.post('https://rc-epay.esewa.com.np/api/epay/main/v2/form', payload);
-        console.log(eSewaResponse.data); // Handle response as needed
-        res.status(200).json({ success: true, message: 'Payment initiated successfully' });
+        
+        const formData = {
+            amount: payload.total_amount,
+            tax_amount: '0',
+            total_amount: payload.total_amount,
+            product_delivery_charge: "0",
+            product_service_charge: "0",
+            signature: hashInBase64,
+            transaction_uuid: uid,
+            product_code: 'EPAYTEST',
+            success_url: 'https://esewa.com.np', // success URL
+            failure_url: 'https://google.com', // failure URL
+            signed_field_names: 'total_amount,transaction_uuid,product_code'
+        };
+
+        console.log("Data Sent Successfully");
+        console.log(formData);
+        res.status(200).json({ success: true, message: 'Payment initiated successfully', formData });
     } catch (error) {
         console.error('Error initiating payment:', error.response ? error.response.data : error.message);
         res.status(500).json({ success: false, message: 'Failed to initiate payment' });
