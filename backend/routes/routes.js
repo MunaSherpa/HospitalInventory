@@ -3,6 +3,7 @@ const { loginUser, registerUser, forgotPassword, verifyOtp, resetPassword, getUs
 const { registerDoctor, getDoctorDetails, getDoctorDetailbyId } = require("../controller/doctor/doctor")
 const { bookAppointment,verifyPayment, khaltiPayment, eSewaPayment  } = require("../controller/bookAppointment/bookAppointment")
 const { createBlog, getAllBlogs, getBlogById, updateBlog, deleteBlog } = require("../controller/blog/Blog")
+const { accessChat } = require("../controller/chat/chatController")
 
 
 const router = require("express").Router()
@@ -41,7 +42,18 @@ router.route("/singleBlog/:id").get(getBlogById);
 router.route("/singleBlog/:id/update").post(updateBlog);
 router.route("/singleBlog/:id/delete").delete(deleteBlog);
 
-// router.put('/singleBlog:id/update', blogController.updateBlog); 
+
+// chat routes here
+// router.route("/chat").post(protect, accessChat);
+router.route("/chat").post(accessChat);
+// router.route("/chat").get(fetchChat);
+// router.route("/rename").put(renameGroup);
+// router.route("/groupremove").put(removeFromGroup);
+// router.route("/groupadd").put(addToGroup);
+
+
+
+
 
 
 

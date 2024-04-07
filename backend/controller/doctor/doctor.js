@@ -1,4 +1,4 @@
-const Doctor = require("../../model/admin/doctor");
+const Doctor = require("../../model/doctor/doctor");
 
 
 const multer = require('multer');

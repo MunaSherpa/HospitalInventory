@@ -43,6 +43,8 @@ connectDatabase(process.env.MONGO_URI) // Database connection. if we cannot requ
 app.use("",authRoute)// this line use the routes of authRoute and  middleware applied and app.use("",authRoute) in here empty string ""   used all the api is add in this first empty"" of authRoute
 app.use("", router )
 
+// app.use('/api/chat', chatRoutes);
+
 
 
 
