@@ -23,6 +23,16 @@ import Testesewa from '../testesewa'
 import CreateBlog from '../dashboard/createBlog/CreateBlog'
 import PostBlogs from '../dashboard/createBlog/PostBlogs'
 import UpdateBlog from '../dashboard/createBlog/UpdateBlog'
+import AddProduct from '../dashboard/product/addProduct'
+import SingleProduct from '../pages/pharmacy/SingleProduct'
+import Cart from '../pages/pharmacy/cart'
+import CheckOut from '../pages/pharmacy/CheckOut'
+// import AdminDashboard from '../dashboard/adminDashboard/AdminDashboard'
+// import ViewAppointment from '../dashboard/Apppointment/ViewAppointment'
+// import EditAppointment from '../dashboard/Apppointment/EditAppointment'
+import AdminDashboard from '../dashboard/adminDashboard/adminDashboard'
+import ViewAppointment from '../dashboard/Appointment/ViewAppointment'
+import EditAppointment from '../dashboard/Appointment/EditAppointment'
 
 
 
@@ -46,19 +56,29 @@ const Routers = () => {
         <Route path='/viewdoctor' element={<ViewDoctor/>}/>
         <Route path="/profile/:email" element={<UserProfile />} />
         <Route path="/bookappointment/:doctorid" element={<BookAppointment />} />
-
-
         <Route path='/testesewa' element={<Testesewa/>}/>
+
+        <Route path='/cart' element={<Cart/>}/>
+        <Route path='/checkout' element={<CheckOut/>}/>
+        <Route path='/singleproduct/:productId' element={<SingleProduct/>}/>
+
+
 
 
 
         { /* admin dashboard */ }
+
+        <Route path='/dashboard' element={<AdminDashboard/>}/>
         <Route path='/dashboard/adddoctor' element={<AddDoctor/>}/>
+        <Route path='/dashboard/viewappointment' element={<ViewAppointment/>}/>
+        <Route path='/dashboard/editappointment/:appID' element={<EditAppointment/>}/>
         <Route path='/dashboard/nav' element={<Nav/>}/>
         <Route path='/dashboard/sidenav' element={<Sidenav/>}/>
         <Route path='/dashboard/createBlog' element={<CreateBlog/>}/>
         <Route path='/dashboard/blog' element={<PostBlogs/>}/>
         <Route path='/dashboard/updateBlog/:id' element={<UpdateBlog/>}/>
+        <Route path='/dashboard/addproduct' element={<AddProduct/>}/>
+
 
 
 
@@ -69,3 +89,11 @@ const Routers = () => {
 }
 
 export default Routers
+
+
+
+
+
+
+
+

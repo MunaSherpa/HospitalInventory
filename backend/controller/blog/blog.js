@@ -101,11 +101,14 @@ exports.getBlogById = async (req, res) => {
 };
 
 
+
 // Update blog post by ID
 exports.updateBlog = async (req, res) => {
   try {
     const { id } = req.params;
-    const {  title, description, createdDate } = req.body;
+
+    // Fetch the updated blog post details from the request body
+    const { title, description, createdDate } = req.body;
 
     // Check if the blog post exists
     let blog = await Blog.findById(id);
@@ -124,17 +127,11 @@ exports.updateBlog = async (req, res) => {
     if (title) blog.title = title;
     if (description) blog.description = description;
     if (createdDate) blog.createdDate = createdDate;
-console.log(id)
-console.log(blog.image)
-console.log(title)
-console.log(description)
-
-console.log(createdDate)
 
     // Save the updated blog post
     await blog.save();
 
-    res.json({ message: 'Blog post updated successfully' });
+    res.json({ message: 'Blog post updated successfully', blog });
   } catch (error) {
     console.error("Error updating blog post:", error);
     res.status(500).json({
@@ -142,6 +139,10 @@ console.log(createdDate)
     });
   }
 };
+
+
+
+
 
 
 

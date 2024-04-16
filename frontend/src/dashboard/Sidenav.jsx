@@ -12,10 +12,16 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
 import { useNavigate } from 'react-router-dom';
 import { useAppStore } from '../../appStore';
-
+import { FaRegNewspaper } from "react-icons/fa6";
+import { FaUserDoctor } from "react-icons/fa6";
+import { IoSettings } from "react-icons/io5";
+import { IoNewspaperSharp } from "react-icons/io5";
+// import Logo from  '../assets/hoslogo.png';
+import { IoMdAdd } from "react-icons/io";
+import { MdDashboard } from "react-icons/md";
+import { FaEye } from "react-icons/fa";
 
 
 const drawerWidth = 240;
@@ -82,12 +88,45 @@ export default function Sidenav() {
 
             <Drawer variant="permanent" open={open}>
                 <DrawerHeader>
+                {/* <img style={{ width: '100%' }} className="profile" alt="profilepicture" src={Logo} /> */}
+
+                {/* <Box
+                        sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            textAlign: 'center',
+                            height: '25%',
+                        }}
+                    >
+                    </Box> */}
                     <IconButton >
                         {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
                     </IconButton>
                 </DrawerHeader>
                 <Divider />
                 <List>
+                <ListItem disablePadding sx={{ display: 'block' }} onClick={() => { navigate("/dashboard") }}>
+                        <ListItemButton
+                            sx={{
+                                minHeight: 48,
+                                justifyContent: open ? 'initial' : 'center',
+                                px: 2.5,
+                            }}
+                        >
+                            <ListItemIcon
+                                sx={{
+                                    minWidth: 0,
+                                    mr: open ? 3 : 'auto',
+                                    justifyContent: 'center',
+                                }}
+                            >
+                                <MdDashboard />
+                            </ListItemIcon>
+                            <ListItemText primary="Dashboard" sx={{ opacity: open ? 1 : 0 }} />
+                        </ListItemButton>
+                    </ListItem>
                     <ListItem disablePadding sx={{ display: 'block' }} onClick={() => { navigate("/dashboard/adddoctor") }}>
                         <ListItemButton
                             sx={{
@@ -103,9 +142,29 @@ export default function Sidenav() {
                                     justifyContent: 'center',
                                 }}
                             >
-                                <InboxIcon />
+                                <FaUserDoctor />
                             </ListItemIcon>
                             <ListItemText primary="AddDoctor" sx={{ opacity: open ? 1 : 0 }} />
+                        </ListItemButton>
+                    </ListItem>
+                    <ListItem disablePadding sx={{ display: 'block' }} onClick={() => { navigate("/dashboard/viewappointment") }}>
+                        <ListItemButton
+                            sx={{
+                                minHeight: 48,
+                                justifyContent: open ? 'initial' : 'center',
+                                px: 2.5,
+                            }}
+                        >
+                            <ListItemIcon
+                                sx={{
+                                    minWidth: 0,
+                                    mr: open ? 3 : 'auto',
+                                    justifyContent: 'center',
+                                }}
+                            >
+                                <FaEye />
+                            </ListItemIcon>
+                            <ListItemText primary="View Appointment" sx={{ opacity: open ? 1 : 0 }} />
                         </ListItemButton>
                     </ListItem>
                     <ListItem disablePadding sx={{ display: 'block' }} onClick={()=>{navigate("/dashboard/createBlog")}}>
@@ -123,7 +182,7 @@ export default function Sidenav() {
                                     justifyContent: 'center',
                                 }}
                             >
-                                <InboxIcon />
+                                <FaRegNewspaper />
                             </ListItemIcon>
                             <ListItemText primary="CreateBlog" sx={{ opacity: open ? 1 : 0 }} />
                         </ListItemButton>
@@ -143,12 +202,12 @@ export default function Sidenav() {
                                     justifyContent: 'center',
                                 }}
                             >
-                                <InboxIcon />
+                                <IoNewspaperSharp />
                             </ListItemIcon>
                             <ListItemText primary="PostBlogs" sx={{ opacity: open ? 1 : 0 }} />
                         </ListItemButton>
                     </ListItem>
-                    <ListItem disablePadding sx={{ display: 'block' }} onClick={()=>{navigate("/admin/settings")}}>
+                    <ListItem disablePadding sx={{ display: 'block' }} onClick={()=>{navigate("/dashboard/addproduct")}}>
                         <ListItemButton
                             sx={{
                                 minHeight: 48,
@@ -163,9 +222,9 @@ export default function Sidenav() {
                                     justifyContent: 'center',
                                 }}
                             >
-                                <InboxIcon />
+                                <IoMdAdd />
                             </ListItemIcon>
-                            <ListItemText primary="Settings" sx={{ opacity: open ? 1 : 0 }} />
+                            <ListItemText primary="AddProduct" sx={{ opacity: open ? 1 : 0 }} />
                         </ListItemButton>
                     </ListItem>
                 </List>

@@ -27,6 +27,8 @@ const navItems = [
   { title: 'Service', path: '/' },
   { title: 'Find Doctor', path: '/doctor' },
   { title: 'Pharmacy', path: '/pharmacy' },
+  { title: 'Cart', path: '/cart' },
+
   { title: 'Blog', path: '/blog' },
 ];
 

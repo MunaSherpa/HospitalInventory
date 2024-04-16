@@ -1,9 +1,11 @@
-
 const { loginUser, registerUser, forgotPassword, verifyOtp, resetPassword, getUserDetails, getUserDetailsbyEmail, logOut, updateUserProfile } = require("../controller/auth/authController")
 const { registerDoctor, getDoctorDetails, getDoctorDetailbyId } = require("../controller/doctor/doctor")
-const { bookAppointment,verifyPayment, khaltiPayment, eSewaPayment  } = require("../controller/bookAppointment/bookAppointment")
+const { bookAppointment,verifyPayment, khaltiPayment, eSewaPayment, onlinePayment, handleEsewaSuccess  } = require("../controller/bookAppointment/bookAppointment")
 const { createBlog, getAllBlogs, getBlogById, updateBlog, deleteBlog } = require("../controller/blog/Blog")
 const { accessChat } = require("../controller/chat/chatController")
+const { createProduct, getAllProducts, getProductDetailById, deleteProductById, updateProductById } = require("../controller/pharmacy/product")
+const { addToCart, getUserCart, removeFromCart, calculateTotal } = require("../controller/pharmacy/cart")
+const { fetchAppointment, deleteAppointmentbyId, getappointmentbyid } = require("../controller/bookAppointment/ViewAppointment")
 
 
 const router = require("express").Router()
@@ -31,15 +33,20 @@ router.route("/doctorDetailbyId").post(getDoctorDetailbyId)
 
 
 //bookAppointment routes here
-router.route("/bookAppointment").post(bookAppointment);
-router.route("/bookAppointment/:id").get(bookAppointment);
-router.route("/verifyPayment/:id").get(verifyPayment);
+// router.route("/bookAppointment").post(bookAppointment);
+// router.route("/bookAppointment/:id").get(bookAppointment);
+// router.route("/verifyPayment/:id").get(verifyPayment);
+
+//payment route here
+router.route("/payment").post(onlinePayment);
+router.route("/esewasuccess").get(handleEsewaSuccess);
+
 
 // blog routes here
 router.route("/createBlog").post(createBlog);
 router.route("/allBlogs").get(getAllBlogs);
 router.route("/singleBlog/:id").get(getBlogById);
-router.route("/singleBlog/:id/update").post(updateBlog);
+router.route("/singleBlog/:id/update").put(updateBlog);
 router.route("/singleBlog/:id/delete").delete(deleteBlog);
 
 
@@ -53,6 +60,30 @@ router.route("/chat").post(accessChat);
 
 
 
+//fetchAppointmets
+router.route("/fetchappointments").get(fetchAppointment);
+//deleteAppointmentsbyId
+router.route("/deleteappointmentbyid").delete(deleteAppointmentbyId);
+router.route("/getappointmentbyid").post(getappointmentbyid);
+
+
+//product routes here
+router.route("/productCreated").post(createProduct)
+router.route("/productDetails").get(getAllProducts)
+router.route("/productDetailbyId").post(getProductDetailById)
+router.route("/singleProduct/:id").delete(deleteProductById);
+router.route("/singleProduct/:id").put(updateProductById);
+
+
+
+
+// Cart routes
+router.route("/addToCart").post(addToCart)
+router.route("/getUserCart").get(getUserCart)
+router.route("/cartDetailById").post(createProduct)
+router.route("/removeFromCart/:cartItemId").delete(removeFromCart)
+router.route("/calculateTotal").get(calculateTotal)
+// router.route("/singleCart/:id").put(createProduct)
 
 
 
@@ -60,7 +91,8 @@ router.route("/chat").post(accessChat);
 
 
 
-router.route("/esewapay").post(eSewaPayment);
+
+
 
 
 

@@ -2,31 +2,61 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const appointmentSchema = new Schema({
+    doctorId: {
+        type: String,
+        required: [true, "Doctor ID must be provided"]
+    },
+    doctorName: {
+        type: String,
+        required: [true, "Doctor name must be provided"]
+    },
+    specialist: {
+        type: String,
+        required: [true, "Specialist must be provided"]
+    },
+    doctorAvailability: {
+        type: String,
+        required: [true, "Doctor availability must be provided"]
+    },
+    workExperience: {
+        type: String,
+        required: [true, "Work experience must be provided"]
+    },
+    patientEmail: {
+        type: String,
+        required: [true, "Patient Email must be provided"]
+    },
     patientName: {
         type: String,
         required: [true, "Patient name must be provided"]
     },
-    address: {
+    patientAddress: {
         type: String,
         required: [true, "Patient address must be provided"]
     },
-    description: {
+    appointmentReason: {
         type: String,
-        required: [true, "Appointment description must be provided"]
+        required: [true, "Appointment reason must be provided"]
     },
-    appointmentDateTime: {
-        type: Date,
+    appointmentDateAndTime: {
+        type: String,
         required: [true, "Appointment date and time must be provided"]
     },
-    
-    // doctor: {
-    //     type: Schema.Types.ObjectId,
-    //     ref: 'Doctor',
-    //     required: [true, "Doctor reference must be provided"]
-    // }
-    doctorId: {
-        type: Schema.Types.ObjectId,
-        ref:"Doctor"
+    paymentType: {
+        type: String,
+        required: [true, "Payment type must be provided"]
+    },
+    totalAmount: {
+        type: Number,
+        required: [true, "Total amount must be provided"]
+    },
+    esewaTransactionUUID: {
+        type: String,
+        required: [true, "eSewa transaction UUID must be provided"]
+    },
+    esewaSignature: {
+        type: String,
+        required: [true, "eSewa signature must be provided"]
     }
 });
 

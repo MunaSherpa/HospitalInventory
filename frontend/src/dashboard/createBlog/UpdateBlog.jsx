@@ -53,6 +53,10 @@ const UpdateBlog = () => {
     const [blogData, setBlogData] = useState(initialBlogData);
     const [file, setFile] = useState('');
     const [isModified, setIsModified] = useState(false); // State to track if blog data is modified
+//     const [newBlogData, setnewBlogData] = useState({
+//         title: blogData.title,
+//         description: blogData.description
+// });
 
     useEffect(() => {
         const fetchBlog = async () => {
@@ -93,27 +97,28 @@ const UpdateBlog = () => {
     const handlePublish = async () => {
         console.log(handlePublish)
 
-        // const formData = new FormData();
-        // formData.append('image', file);
-        // formData.append('title', blogData.title);
-        // formData.append('description', blogData.description);
-        // // formData.append('createdDate', new Date());
-        // formData.append('createdDate', new Date().toString());
-
         console.log(id);
         console.log(blogData.title);
         console.log(blogData.description);
         // console.log(formData);
 
+        console.log(newBlogData);
+
         var title = blogData.title;
          var image = "uploads/1711748714755-image1.png";
         var description = blogData.description;
         var createdDate = new Date().toString();
+
+        console.log(title);
+        console.log(image);
+        console.log(description);
+        console.log(createdDate);
+
         try {
             
 
 
-            var res = await axios.post(`http://localhost:3001/singleBlog/${id}/update`, image, title,  description, createdDate, {
+            var res = await axios.post(`http://localhost:3001/singleBlog/${id}/update`,  newBlogData, {
             // var res = await axios.post(`http://localhost:3001/singleBlog/${id}/update`, formData, {
 
                 headers: {

@@ -21,6 +21,7 @@ const AppBar = styled(MuiAppBar, {
  
 })(({ theme }) => ({
   zIndex: theme.zIndex.drawer + 1,
+  backgroundColor: '#4caf50'
  
 }));
 
@@ -186,7 +187,7 @@ export default function Nav() {
             component="div"
             sx={{ display: { xs: 'none', sm: 'block' } }}
           >
-            HInventory
+            
           </Typography>
           <Search>
             <SearchIconWrapper>
