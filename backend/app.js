@@ -4,7 +4,12 @@ const cors = require('cors');
 const User = require("./model/userModel")
 const app = express()
 
+const http = require('http');
+const socketIo = require('socket.io');
 
+
+const server = http.createServer(app);
+const io = socketIo(server);
 
 
 // const cookieParser = require ("cookie-parser")
@@ -46,6 +51,27 @@ app.use("", router )
 // app.use('/api/chat', chatRoutes);
 
 
+
+
+// Socket.io setup
+const messages = [];
+
+io.on('connection', (socket) => {
+  console.log('A user connected');
+
+  // Send existing messages to the client
+  socket.emit('allMessages', messages);
+
+  // Listen for new messages from the client
+  socket.on('sendMessage', (message) => {
+    messages.push(message);
+    io.emit('newMessage', message); // Broadcast new message to all clients
+  });
+
+  socket.on('disconnect', () => {
+    console.log('User disconnected');
+  });
+});
 
 
 

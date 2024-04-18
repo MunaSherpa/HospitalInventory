@@ -2,9 +2,12 @@ const User = require("../../model/userModel")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 const nodemailer = require('nodemailer')
+const { sendGoodResponse, sendBadResponse } = require("../../helpers/helper");
+const { validationResult } = require('express-validator');
 
 
-// register
+
+//register
 exports.registerUser = async (req, res) => {
     const { name, email, password } = req.body;
 
@@ -47,6 +50,60 @@ exports.registerUser = async (req, res) => {
         }
     }
 };
+
+
+
+
+
+
+
+
+// module.exports.registerUser = async function (req, res) {
+//     const result = validationResult(req);
+//     if (!result.isEmpty()) return sendBadResponse(res, result.array({ onlyFirstError: true }));
+  
+//     const { email, password, name,  } = req.body;
+//     const jwtSecretKey = process.env.JWT_SECRET_KEY;
+  
+//     try {
+//       // Check if the user already exists
+//       const existingUser = await User.findOne({ email }); // Check for existing user
+  
+//       if (existingUser) {
+//         return sendBadResponse(res, [{ path: 'email', msg: 'User with this email already exists' }]);
+//       }
+  
+//       // Hash the password before saving it to the database
+//       const hashedPassword = await bcrypt.hash(password, 10); // Hash password before saving
+  
+//       const newUser = new User({ // Create a new user instance
+//         email,
+//         password: hashedPassword,
+//         name,
+        
+//         // Add other user properties as needed
+//       });
+  
+//       const savedUser = await newUser.save(); // Save the user to the database
+  
+//       // Generate JWT token
+//       const token = jwt.sign({ userId: savedUser.id }, jwtSecretKey, { expiresIn: '1h' });
+  
+//       // Response data
+//       const data = {
+//         status: 'success',
+//         message: 'User registered successfully.',
+//         data: { ...savedUser.toJSON(), token },
+//         token
+//       };
+  
+//       sendGoodResponse(res, data);
+//     } catch (error) {
+//       console.error('Error during registration:', error);
+//       return sendBadResponse(res, [{ msg: 'Internal server error' }]);
+//     }
+//   }
+  
 
 
 
@@ -100,6 +157,87 @@ exports.loginUser = async (req, res) => {
         });
     }
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+// module.exports.loginUser = async (req, res) => {
+//     const result = validationResult(req);
+//     if (!result.isEmpty()) return sendBadResponse(res, result.array({ onlyFirstError: true }));
+  
+//     try {
+//       const { email, password, } = req.body;
+//       const jwtSecretKey = process.env.JWT_SECRET_KEY;
+  
+//       const user = await User.findOne({ email });
+//       if(!user) throw "Now user found";
+  
+//       // Compare the provided password with the hashed password in the database
+//       const passwordMatch = await bcrypt.compare(password, user.password);
+  
+//       if (!passwordMatch) {
+//         return sendBadResponse(res, [{ msg: 'Invalid email or password' }]);
+//       }
+  
+  
+//       const token = jwt.sign({ userId: user.id }, jwtSecretKey);
+//       const data = {
+//         status: "success",
+//         message: "User logged in successfully.",
+//         data: { ...user.toJSON(), token },
+//         token
+//       }
+//       sendGoodResponse(res, data);
+//     } catch (e) {
+//       console.log(e);
+//       sendGoodResponse(res, { msg: "server error", error: e }, 500)
+//     }
+  
+//   }
+  
+
+
+
+
+module.exports.emailLoginAdmin = async (req, res) => {
+    try {
+        const result = validationResult(req);
+        if (!result.isEmpty()) return sendBadResponse(res, result.array({ onlyFirstError: true }));
+
+        const { email, password, } = req.body;
+        const jwtSecretKey = process.env.JWT_SECRET_KEY;
+
+        const user = await User.findOne({email: email, role: "admin" });
+
+        // Compare the provided password with the hashed password in the database
+        const passwordMatch = await bcrypt.compare(password, user.password);
+
+        if (!passwordMatch) {
+            return sendBadResponse(res, [{ msg: 'Invalid email or password' }]);
+        }
+
+
+        const token = jwt.sign(user.toJSON(), jwtSecretKey);
+        const data = {
+            status: "success",
+            message: "Admin logged in successfully.",
+            data: { ...user.toJSON(), token },
+            token
+        }
+        sendGoodResponse(res, data);
+    } catch (e) {
+        sendBadResponse(rez, {msg: "server error"}, 500);
+    }
+}
 
 
 
@@ -238,12 +376,32 @@ exports.updateUserProfile = async (req, res) => {
 
 
 //logout
+// exports.logOut = async (req, res, next) => {
+//     try {
+//         res.clearCookie("access_token");
+//         res.status(200).json("User Logged out");
+
+//     } catch (error) {
+//         next(error);
+//     }
+// }
+
+
+// logoutController.js
+
+
+
 exports.logOut = async (req, res, next) => {
     try {
-        res.clearCookie("access_token");
-        res.status(200).json("User Logged out");
+        // Assuming you're using JWT tokens for authentication
+        // Clearing any token or session data on the server-side
+        // For example, if using JWT tokens, you don't need to do anything here
+        // JWT tokens are stateless and are typically cleared on the client-side
 
+        // Sending a success response
+        res.status(200).json({ message: "User logged out successfully" });
     } catch (error) {
+        // If any error occurs during logout, pass it to the error handling middleware
         next(error);
     }
-}
+};

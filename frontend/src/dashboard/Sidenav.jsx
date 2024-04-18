@@ -224,7 +224,27 @@ export default function Sidenav() {
                             >
                                 <IoMdAdd />
                             </ListItemIcon>
-                            <ListItemText primary="AddProduct" sx={{ opacity: open ? 1 : 0 }} />
+                            <ListItemText primary="Add Product" sx={{ opacity: open ? 1 : 0 }} />
+                        </ListItemButton>
+                    </ListItem>
+                    <ListItem disablePadding sx={{ display: 'block' }} onClick={()=>{navigate("/dashboard/additems")}}>
+                        <ListItemButton
+                            sx={{
+                                minHeight: 48,
+                                justifyContent: open ? 'initial' : 'center',
+                                px: 2.5,
+                            }}
+                        >
+                            <ListItemIcon
+                                sx={{
+                                    minWidth: 0,
+                                    mr: open ? 3 : 'auto',
+                                    justifyContent: 'center',
+                                }}
+                            >
+                                <IoMdAdd />
+                            </ListItemIcon>
+                            <ListItemText primary="Add Product Items" sx={{ opacity: open ? 1 : 0 }} />
                         </ListItemButton>
                     </ListItem>
                 </List>

@@ -7,6 +7,9 @@ import img2 from '../../assets/img2.png';
 import img3 from '../../assets/img3.png';
 import Footer from '../../footer/Footer';
 import NavProfile from '../../navbar/NavProfile';
+// import Chats from '../chat/Chats';
+import Chats from '../../pages/chat/Chats';
+
 
 const Home = () => {
     const location = useLocation();
@@ -175,6 +178,8 @@ const Home = () => {
                     ))}
                 </Grid>
             </Box>
+            <Chats/>
+
             <Footer />
         </>
     );

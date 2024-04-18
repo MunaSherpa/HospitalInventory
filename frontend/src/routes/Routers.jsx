@@ -30,9 +30,13 @@ import CheckOut from '../pages/pharmacy/CheckOut'
 // import AdminDashboard from '../dashboard/adminDashboard/AdminDashboard'
 // import ViewAppointment from '../dashboard/Apppointment/ViewAppointment'
 // import EditAppointment from '../dashboard/Apppointment/EditAppointment'
-import AdminDashboard from '../dashboard/adminDashboard/adminDashboard'
+// import AdminDashboard from '../dashboard/adminDashboard/adminDashboard'
 import ViewAppointment from '../dashboard/Appointment/ViewAppointment'
 import EditAppointment from '../dashboard/Appointment/EditAppointment'
+import AdminDashboard from '../dashboard/adminDashboard/AdminDashboard'
+import Chats from '../pages/chat/Chats'
+import AddItems from '../dashboard/AddItems/AddItems'
+
 
 
 
@@ -62,6 +66,9 @@ const Routers = () => {
         <Route path='/checkout' element={<CheckOut/>}/>
         <Route path='/singleproduct/:productId' element={<SingleProduct/>}/>
 
+        <Route path='/chat' element={<Chats/>}/>
+
+
 
 
 
@@ -78,8 +85,22 @@ const Routers = () => {
         <Route path='/dashboard/blog' element={<PostBlogs/>}/>
         <Route path='/dashboard/updateBlog/:id' element={<UpdateBlog/>}/>
         <Route path='/dashboard/addproduct' element={<AddProduct/>}/>
+        <Route path='/dashboard/additems' element={<AddItems/>}/>
 
 
+
+
+{/* <Route path='/dashboard' element={<Sidenav/>}>
+  <Route path='adddoctor' element={<AddDoctor/>}/>
+  <Route path='viewappointment' element={<ViewAppointment/>}/>
+  <Route path='editappointment/:appID' element={<EditAppointment/>}/>
+  <Route path='nav' element={<Nav/>}/>
+  <Route path='sidenav' element={<Sidenav/>}/>
+  <Route path='createBlog' element={<CreateBlog/>}/>
+  <Route path='blog' element={<PostBlogs/>}/>
+  <Route path='updateBlog/:id' element={<UpdateBlog/>}/>
+  <Route path='addproduct' element={<AddProduct/>}/>
+</Route> */}
 
 
          
